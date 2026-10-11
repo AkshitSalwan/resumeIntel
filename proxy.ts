@@ -20,7 +20,13 @@ export async function proxy(request: NextRequest) {
         },
       },
     })
-    await supabase.auth.getUser()
+    const { data } = await supabase.auth.getUser()
+    if (request.nextUrl.pathname === '/' && !data.user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/auth/signin'
+      url.searchParams.set('next', '/')
+      return NextResponse.redirect(url)
+    }
   } catch (error) {
     if (error instanceof Error && error.message !== 'Supabase authentication is not configured.') {
       console.error('Supabase proxy session refresh failed', error)

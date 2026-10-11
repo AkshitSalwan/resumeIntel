@@ -3,6 +3,7 @@
 import useSWR from 'swr'
 import { useState } from 'react'
 import { ResearchWorkspace } from '@/components/research-workspace'
+import { SignOutButton } from '@/components/sign-out-button'
 import {
   ArrowRight,
   BarChart3,
@@ -173,7 +174,7 @@ export default function Page() {
         <nav className="nav-list" aria-label="Main navigation">
           {nav.map(({ label, icon: Icon }) => <button key={label} className={`nav-item ${active === label ? 'active' : ''}`} onClick={() => { setActive(label); setShowUpload(false); if (label === 'Robustness lab' || label === 'Research') notify(`${label} workspace is ready for your next experiment`) }}><Icon size={17} /><span>{label}</span>{label === 'Research' && <span className="nav-badge">2</span>}</button>)}
         </nav>
-        <div className="sidebar-bottom"><button className="nav-item"><Settings size={17} /><span>Settings</span></button><button className="nav-item"><CircleHelp size={17} /><span>Help center</span></button><div className="privacy-note"><ShieldCheck size={16} /><span>Your resume stays private</span></div></div>
+        <div className="sidebar-bottom"><button className="nav-item"><Settings size={17} /><span>Settings</span></button><button className="nav-item"><CircleHelp size={17} /><span>Help center</span></button><SignOutButton /><div className="privacy-note"><ShieldCheck size={16} /><span>Your resume stays private</span></div></div>
       </aside>
 
       <main className="main-content">

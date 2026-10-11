@@ -68,4 +68,19 @@ describe('security configuration', () => {
     expect(analysesRoute).toContain('RETURNING id, resume_id, job_description, result, created_at')
     expect(reportRoute).toContain('SELECT id, resume_id, job_description, result, created_at')
   })
+
+  it('keeps auth UI on public Supabase configuration and protects the dashboard at the proxy', () => {
+    const browserSource = readFileSync(resolve(process.cwd(), 'lib/supabase/browser.ts'), 'utf8')
+    const authForm = readFileSync(resolve(process.cwd(), 'components/auth-form.tsx'), 'utf8')
+    const proxy = readFileSync(resolve(process.cwd(), 'proxy.ts'), 'utf8')
+    const signOut = readFileSync(resolve(process.cwd(), 'components/sign-out-button.tsx'), 'utf8')
+
+    expect(browserSource).toContain('createBrowserClient')
+    expect(authForm).toContain('createSupabaseBrowserClient')
+    expect(authForm).not.toContain('SUPABASE_SECRET_KEY')
+    expect(authForm).not.toContain('DATABASE_URL')
+    expect(proxy).toContain("request.nextUrl.pathname === '/'")
+    expect(proxy).toContain("url.pathname = '/auth/signin'")
+    expect(signOut).toContain("fetch('/api/auth/signout'")
+  })
 })
