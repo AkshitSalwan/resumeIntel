@@ -1,0 +1,7 @@
+Jordan Davis
+Product Data Analyst
+
+Experience
+Built PostgreSQL and SQL dashboards with Python for finance operations. Used AWS for scheduled data jobs and wrote Playwright tests for internal tools. Reduced weekly reporting time by 40% through documented data quality checks.
+
+Skills: Python, SQL, PostgreSQL, AWS
