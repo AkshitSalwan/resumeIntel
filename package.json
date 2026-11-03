@@ -8,7 +8,9 @@
     "lint": "eslint .",
     "build": "next build",
     "start": "next start",
-    "test": "vitest run"
+    "test": "vitest run",
+    "db:verify": "node --experimental-strip-types scripts/verify-db-connection.mjs",
+    "security:integration": "node scripts/supabase-rls-storage-audit.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
@@ -20,7 +22,7 @@
     "drizzle-orm": "^0.45.4",
     "lucide-react": "^1.16.0",
     "mammoth": "^1.13.0",
-    "next": "16.4.0",
+    "next": "16.4.4",
     "pdfjs-dist": "5.4.296",
     "pg": "^8.23.1",
     "react": "^19",
@@ -39,7 +41,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9.39.5",
-    "eslint-config-next": "16.4.0",
+    "eslint-config-next": "16.4.4",
     "pdfkit": "^0.20.2",
     "postcss": "^8.5",
     "tailwindcss": "^4.3.3",

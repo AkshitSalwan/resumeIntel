@@ -8,10 +8,12 @@ create table if not exists resumes (
   size_bytes integer not null check (size_bytes > 0),
   extracted_text text not null,
   storage_path text,
+  workflow_token uuid,
   created_at timestamptz not null default now()
 );
 
 alter table resumes add column if not exists storage_path text;
+alter table resumes add column if not exists workflow_token uuid;
 
 create table if not exists analyses (
   id uuid primary key default gen_random_uuid(),

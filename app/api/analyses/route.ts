@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getAuthenticatedUser } from '@/lib/auth'
 import { analyzeResume, validateJobDescription } from '@/lib/analysis'
 import { pool } from '@/lib/db'
+import { createSupabaseServerClient } from '@/lib/supabase/server'
 
 export const runtime = 'nodejs'
 
@@ -25,6 +26,7 @@ export async function POST(request: Request) {
   if (!auth.user) return NextResponse.json({ error: auth.error === 'not_configured' ? 'Authentication is not configured.' : 'Sign in to create an analysis.' }, { status: auth.error === 'not_configured' ? 503 : 401 })
   const body = await request.json().catch(() => null)
   const resumeId = typeof body?.resumeId === 'string' ? body.resumeId.trim() : ''
+  const workflowToken = typeof body?.workflowToken === 'string' ? body.workflowToken.trim() : ''
   const rawJobDescription = typeof body?.jobDescription === 'string' ? body.jobDescription : ''
   const validation = validateJobDescription(rawJobDescription)
   if (!resumeId || !validation.ok) return NextResponse.json({ error: !resumeId ? 'A resume is required.' : validation.error }, { status: 400 })
@@ -37,7 +39,14 @@ export async function POST(request: Request) {
       await client.query('ROLLBACK')
       return NextResponse.json({ error: 'Resume not found.' }, { status: 404 })
     }
-    const result = analyzeResume(resume.rows[0].extracted_text, validation.value)
+    let result
+    try {
+      result = analyzeResume(resume.rows[0].extracted_text, validation.value)
+    } catch (error) {
+      await client.query('ROLLBACK')
+      await cleanupFailedWorkflowResume(auth.user.id, resumeId, workflowToken)
+      throw error
+    }
     const saved = await client.query(
       `INSERT INTO analyses (owner_id, resume_id, job_description, result) VALUES ($1, $2, $3, $4::jsonb) RETURNING id, resume_id, job_description, result, created_at`,
       [auth.user.id, resumeId, validation.value, JSON.stringify(result)],
@@ -46,9 +55,28 @@ export async function POST(request: Request) {
     return NextResponse.json({ analysis: saved.rows[0] }, { status: 201 })
   } catch (error) {
     await client.query('ROLLBACK').catch((rollbackError) => console.error('Analysis rollback failed', rollbackError))
+    await cleanupFailedWorkflowResume(auth.user.id, resumeId, workflowToken)
     console.error('Analysis persistence failed', { resumeId, error })
     return NextResponse.json({ error: 'The analysis could not be saved. Please try again.' }, { status: 503 })
   } finally {
     client.release()
+  }
+
+  async function cleanupFailedWorkflowResume(ownerId: string, resumeId: string, workflowToken: string) {
+    if (!workflowToken) return
+    try {
+      const cleanup = await pool.query(
+        'DELETE FROM resumes WHERE id = $1 AND owner_id = $2 AND workflow_token = $3 RETURNING storage_path',
+        [resumeId, ownerId, workflowToken],
+      )
+      const storagePath = cleanup.rows[0]?.storage_path
+      if (storagePath) {
+        const supabase = await createSupabaseServerClient()
+        const result = await supabase.storage.from('resumes').remove([storagePath])
+        if (result.error) console.error('Failed workflow Storage cleanup failed', { resumeId, error: result.error })
+      }
+    } catch (cleanupError) {
+      console.error('Failed workflow resume cleanup failed', { resumeId, error: cleanupError })
+    }
   }
 }

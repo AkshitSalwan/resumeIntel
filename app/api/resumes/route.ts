@@ -7,6 +7,21 @@ import { extractResumeText, isSupportedResumeType, validateResumeFile } from '@/
 
 export const runtime = 'nodejs'
 
+export async function GET() {
+  const auth = await getAuthenticatedUser()
+  if (!auth.user) return NextResponse.json({ error: auth.error === 'not_configured' ? 'Authentication is not configured.' : 'Sign in to view resumes.' }, { status: auth.error === 'not_configured' ? 503 : 401 })
+  try {
+    const result = await pool.query(
+      'SELECT id, filename, mime_type, size_bytes, storage_path, created_at FROM resumes WHERE owner_id = $1 ORDER BY created_at DESC',
+      [auth.user.id],
+    )
+    return NextResponse.json({ resumes: result.rows })
+  } catch (error) {
+    console.error('Resume listing failed', error)
+    return NextResponse.json({ error: 'Saved resumes could not be loaded.' }, { status: 503 })
+  }
+}
+
 export async function POST(request: Request) {
   const auth = await getAuthenticatedUser()
   if (!auth.user) return NextResponse.json({ error: auth.error === 'not_configured' ? 'Authentication is not configured.' : 'Sign in to upload a resume.' }, { status: auth.error === 'not_configured' ? 503 : 401 })
@@ -44,6 +59,7 @@ export async function POST(request: Request) {
   }
 
   const storagePath = `${auth.user.id}/${randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`
+  const workflowToken = randomUUID()
   const supabase = await createSupabaseServerClient()
   const storageResult = await supabase.storage.from('resumes').upload(storagePath, buffer, { contentType: file.type, upsert: false })
   if (storageResult.error) {
@@ -53,8 +69,8 @@ export async function POST(request: Request) {
 
   try {
     const result = await pool.query(
-      `INSERT INTO resumes (owner_id, filename, mime_type, size_bytes, extracted_text, storage_path) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, filename, created_at`,
-      [auth.user.id, file.name, file.type, file.size, extractedText.trim(), storagePath],
+      `INSERT INTO resumes (owner_id, filename, mime_type, size_bytes, extracted_text, storage_path, workflow_token) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, filename, created_at, workflow_token`,
+      [auth.user.id, file.name, file.type, file.size, extractedText.trim(), storagePath, workflowToken],
     )
 
     return NextResponse.json({ resume: result.rows[0] }, { status: 201 })

@@ -9,6 +9,14 @@ export async function POST(request: Request) {
   try {
     const body = await request.json() as Partial<ExperimentConfig> & { sectionId?: string; content?: string }
     if (body.sectionId && typeof body.content === 'string') {
+      if (!/^[0-9a-f-]{36}$/i.test(body.sectionId)) {
+        return NextResponse.json({ error: 'Manuscript section not found.' }, { status: 404 })
+      }
+      const section = await pool.query(
+        'SELECT id FROM manuscript_sections WHERE id = $1 AND owner_id = $2 LIMIT 1',
+        [body.sectionId, auth.user.id],
+      )
+      if (!section.rows[0]) return NextResponse.json({ error: 'Manuscript section not found.' }, { status: 404 })
       const revision = await pool.query(
         'INSERT INTO manuscript_revisions (owner_id, section_id, content) VALUES ($1, $2, $3) RETURNING id, section_id, content, created_at',
         [auth.user.id, body.sectionId, body.content],

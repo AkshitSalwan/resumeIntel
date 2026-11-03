@@ -1,9 +1,10 @@
 'use client'
 
 import useSWR from 'swr'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ResearchWorkspace } from '@/components/research-workspace'
 import { SignOutButton } from '@/components/sign-out-button'
+import { formatDashboardDate } from '@/lib/date-format'
 import {
   ArrowRight,
   BarChart3,
@@ -62,6 +63,9 @@ type StoredAnalysis = {
   }
   created_at: string
 }
+type StoredResume = { id: string; filename: string; mime_type: string; size_bytes: number; created_at: string }
+type ResearchRun = { id: string; result: Record<string, unknown>; executed_at: string }
+type Profile = { email: string | null; displayName: string | null }
 
 const fetcher = (url: string) => fetch(url).then(async (response) => {
   if (!response.ok) throw new Error('Could not load saved analyses')
@@ -91,8 +95,21 @@ export default function Page() {
   const [researchOutput, setResearchOutput] = useState('')
   const [manuscript, setManuscript] = useState('')
   const [researchRunning, setResearchRunning] = useState(false)
+  const [profile, setProfile] = useState<Profile | null>(null)
+  const [resumeNotice, setResumeNotice] = useState('')
   const { data: analysisData, error: analysisError, mutate: refreshAnalyses } = useSWR<{ analyses: StoredAnalysis[] }>('/api/analyses', fetcher)
+  const { data: resumeData, error: resumeError, mutate: refreshResumes } = useSWR<{ resumes: StoredResume[] }>('/api/resumes', fetcher)
+  const { data: researchData, error: researchError } = useSWR<{ runs: ResearchRun[] }>('/api/research', fetcher)
+  const { data: manuscriptData } = useSWR<{ sections: Array<{ id: string; title: string; content: string }>; revisions: Array<{ id: string; section_id: string; content: string; created_at: string }> }>('/api/manuscripts', fetcher)
   const analyses = analysisData?.analyses ?? []
+  const resumes = resumeData?.resumes ?? []
+  const researchRuns = researchData?.runs ?? []
+  const displayName = profile?.displayName || profile?.email?.split('@')[0] || 'Workspace'
+  const initials = displayName.split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join('') || '?'
+
+  useEffect(() => {
+    fetch('/api/me').then((response) => response.ok ? response.json() : null).then((data) => { if (data?.user) setProfile({ email: data.user.email, displayName: data.user.displayName }) }).catch(() => undefined)
+  }, [])
 
   function notify(message: string) {
     setNotice(message)
@@ -124,7 +141,15 @@ export default function Page() {
 
   async function saveManuscript() {
     if (!manuscript.trim()) { notify('Write a manuscript section first'); return }
-    notify('Manuscript workspace is ready; create a section in the research database to save revisions')
+    try {
+      const current = manuscriptData?.sections[0]
+      const content = manuscript || current?.content || ''
+      const response = await fetch('/api/manuscripts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sectionId: current?.id, title: current?.title ?? 'Research manuscript', content }) })
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'Manuscript save failed')
+      setManuscript(data.section.content)
+      notify('Manuscript revision saved')
+    } catch (error) { notify(error instanceof Error ? error.message : 'Manuscript save failed') }
   }
 
   async function submitAnalysis() {
@@ -148,7 +173,7 @@ export default function Page() {
       const analysisResponse = await fetch('/api/analyses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ resumeId: upload.resume.id, jobDescription }),
+        body: JSON.stringify({ resumeId: upload.resume.id, workflowToken: upload.resume.workflow_token, jobDescription }),
       })
       const analysis = await analysisResponse.json()
       if (!analysisResponse.ok) throw new Error(analysis.error || 'Analysis failed')
@@ -158,6 +183,8 @@ export default function Page() {
       setResumeFile(null)
       setFileName('')
       setJobDescription('')
+      refreshResumes()
+      refreshAnalyses()
       notify(`Analysis complete: ${analysis.analysis.result.score}% match`)
     } catch (error) {
       notify(error instanceof Error ? error.message : 'Something went wrong. Try again.')
@@ -170,27 +197,29 @@ export default function Page() {
     <div className="app-shell">
       <aside className="sidebar">
         <div className="brand"><div className="brand-mark"><Sparkles size={16} /></div><span>resume<span className="brand-accent">intel</span></span></div>
-        <div className="workspace"><div className="avatar">JD</div><div><p className="workspace-name">Jordan Davis</p><p className="workspace-sub">Personal workspace</p></div><ChevronDown size={14} /></div>
+        <div className="workspace"><div className="avatar">{initials}</div><div><p className="workspace-name">{displayName}</p><p className="workspace-sub">Personal workspace</p></div><ChevronDown size={14} /></div>
         <nav className="nav-list" aria-label="Main navigation">
-          {nav.map(({ label, icon: Icon }) => <button key={label} className={`nav-item ${active === label ? 'active' : ''}`} onClick={() => { setActive(label); setShowUpload(false); if (label === 'Robustness lab' || label === 'Research') notify(`${label} workspace is ready for your next experiment`) }}><Icon size={17} /><span>{label}</span>{label === 'Research' && <span className="nav-badge">2</span>}</button>)}
+          {nav.map(({ label, icon: Icon }) => <button key={label} className={`nav-item ${active === label ? 'active' : ''}`} onClick={() => { setActive(label); setShowUpload(false); if (label === 'Robustness lab' || label === 'Research') notify(`${label} workspace is ready for your next experiment`) }}><Icon size={17} /><span>{label}</span>{label === 'Research' && researchRuns.length > 0 && <span className="nav-badge">{researchRuns.length}</span>}</button>)}
         </nav>
         <div className="sidebar-bottom"><button className="nav-item"><Settings size={17} /><span>Settings</span></button><button className="nav-item"><CircleHelp size={17} /><span>Help center</span></button><SignOutButton /><div className="privacy-note"><ShieldCheck size={16} /><span>Your resume stays private</span></div></div>
       </aside>
 
       <main className="main-content">
-        <header className="topbar"><button className="mobile-menu" aria-label="Open navigation"><Menu size={20} /></button><div className="breadcrumbs"><span>Workspace</span><span>/</span><strong>{active}</strong></div><div className="top-actions"><button className="icon-button" aria-label="Search"><Search size={18} /></button><div className="top-avatar">JD</div></div></header>
+        <header className="topbar"><button className="mobile-menu" aria-label="Open navigation"><Menu size={20} /></button><div className="breadcrumbs"><span>Workspace</span><span>/</span><strong>{active}</strong></div><div className="top-actions"><button className="icon-button" aria-label="Search"><Search size={18} /></button><div className="top-avatar">{initials}</div></div></header>
         <div className="content-wrap">
-          {active === 'Research' ? <ResearchWorkspace researchResume={researchResume} setResearchResume={setResearchResume} researchJob={researchJob} setResearchJob={setResearchJob} researchName={researchName} setResearchName={setResearchName} researchKind={researchKind} setResearchKind={setResearchKind} runResearch={runResearch} researchRunning={researchRunning} researchOutput={researchOutput} manuscript={manuscript} setManuscript={setManuscript} saveManuscript={saveManuscript} /> : active === 'New analysis' ? <NewAnalysisPage fileName={fileName} setFileName={setFileName} setResumeFile={setResumeFile} jobDescription={jobDescription} setJobDescription={setJobDescription} submitAnalysis={submitAnalysis} isSubmitting={isSubmitting} /> : active === 'Robustness lab' ? <RobustnessLab onRun={() => { setActive('Research'); setResearchKind('robustness'); notify('Robustness experiment ready to execute') }} /> : <>
-          <section className="hero-row"><div><p className="eyebrow">MONDAY, OCTOBER 10, 2026</p><h1>Good morning, Jordan.</h1><p className="hero-sub">Turn your resume into your next opportunity.</p></div><button className="primary-button" onClick={() => { setActive('New analysis'); setShowUpload(false) }}><Plus size={17} /> New analysis</button></section>
+          {active === 'Research' ? <ResearchWorkspace researchResume={researchResume} setResearchResume={setResearchResume} researchJob={researchJob} setResearchJob={setResearchJob} researchName={researchName} setResearchName={setResearchName} researchKind={researchKind} setResearchKind={setResearchKind} runResearch={runResearch} researchRunning={researchRunning} researchOutput={researchOutput || (researchRuns[0] ? JSON.stringify(researchRuns[0].result, null, 2) : '')} manuscript={manuscript || manuscriptData?.sections[0]?.content || ''} setManuscript={setManuscript} saveManuscript={saveManuscript} /> : active === 'New analysis' ? <NewAnalysisPage fileName={fileName} setFileName={setFileName} setResumeFile={setResumeFile} jobDescription={jobDescription} setJobDescription={setJobDescription} submitAnalysis={submitAnalysis} isSubmitting={isSubmitting} /> : active === 'Robustness lab' ? <RobustnessLab onRun={() => { setActive('Research'); setResearchKind('robustness'); notify('Robustness experiment ready to execute') }} /> : <>
+          <section className="hero-row"><div><p className="eyebrow">{formatDashboardDate(new Date())}</p><h1>Good morning, {displayName}.</h1><p className="hero-sub">Turn your resume into your next opportunity.</p></div><button className="primary-button" onClick={() => { setActive('New analysis'); setShowUpload(false) }}><Plus size={17} /> New analysis</button></section>
 
           <section className="metric-grid" aria-label="Workspace summary">
             <div className="metric-card"><div className="metric-icon indigo"><Target size={18} /></div><div><p className="metric-label">Average match</p><p className="metric-value">{analyses.length ? Math.round(analyses.reduce((sum, item) => sum + item.result.score, 0) / analyses.length) : '—'}{analyses.length > 0 && <span>%</span>}</p><p className="metric-foot"><em>{analyses.length ? 'From saved analyses' : 'Pending first analysis'}</em></p></div></div>
             <div className="metric-card"><div className="metric-icon violet"><FileText size={18} /></div><div><p className="metric-label">Analyses completed</p><p className="metric-value">{analyses.length}</p><p className="metric-foot"><em>{analysisError ? 'Unable to load saved data' : 'Persisted in workspace'}</em></p></div></div>
             <div className="metric-card"><div className="metric-icon amber"><BookOpen size={18} /></div><div><p className="metric-label">Skills to strengthen</p><p className="metric-value">{analyses.reduce((sum, item) => sum + item.result.requirements.filter((requirement) => requirement.status !== 'matched').length, 0)}</p><p className="metric-foot"><em>Evidence gaps across saved analyses</em></p></div></div>
+            <div className="metric-card"><div className="metric-icon violet"><FlaskConical size={18} /></div><div><p className="metric-label">Research runs</p><p className="metric-value">{researchRuns.length}</p><p className="metric-foot"><em>{researchError ? 'Unable to load saved research' : 'Persisted in workspace'}</em></p></div></div>
           </section>
 
           <section className="section-heading"><div><h2>Recent analyses</h2><p>Review your latest resume-to-role comparisons.</p></div><button className="text-button" onClick={() => notify('Showing all 12 analyses in your workspace')}>View all <ArrowRight size={15} /></button></section>
-          <section className="analysis-card"><div className="table-head"><span>Analysis</span><span>Resume</span><span>Match</span><span>Status</span><span></span></div>{analyses.length ? analyses.map((analysis) => <AnalysisRow key={analysis.id} role="Saved job comparison" company="Persisted analysis" file={analysis.resume_id} score={String(analysis.result.score)} date={new Date(analysis.created_at).toLocaleDateString()} status="Complete" tone="success" onOpen={openAnalysis} id={analysis.id} />) : <div className="empty-state">{analysisError ? 'Saved analyses could not be loaded.' : 'No analyses yet. Run a real comparison to populate this workspace.'}</div>}</section>
+          <section className="analysis-card"><div className="table-head"><span>Analysis</span><span>Resume</span><span>Match</span><span>Status</span><span></span></div>{analyses.length ? analyses.map((analysis) => <AnalysisRow key={analysis.id} role="Saved job comparison" company="Persisted analysis" file={resumes.find((resume) => resume.id === analysis.resume_id)?.filename ?? analysis.resume_id} score={String(analysis.result.score)} date={new Date(analysis.created_at).toLocaleDateString()} status="Complete" tone="success" onOpen={openAnalysis} id={analysis.id} />) : <div className="empty-state">{analysisError ? 'Saved analyses could not be loaded.' : 'No analyses yet. Run a real comparison to populate this workspace.'}</div>}</section>
+          <section className="section-heading compact"><div><h2>Your resumes</h2><p>Private files saved to your workspace.</p></div></section><section className="analysis-card">{resumeError ? <div className="empty-state">Saved resumes could not be loaded.</div> : resumes.length ? resumes.map((resume) => <div className="table-row" key={resume.id}><div className="role-cell"><div className="company-mark"><FileText size={15} /></div><div><strong>{resume.filename}</strong><span>{new Date(resume.created_at).toLocaleDateString()} · {Math.round(resume.size_bytes / 1024)} KB</span></div></div><span>{resume.mime_type === 'application/pdf' ? 'PDF' : 'DOCX'}</span><button className="text-button" onClick={async () => { const response = await fetch(`/api/resumes/${resume.id}`, { method: 'DELETE' }); setResumeNotice(response.ok ? 'Resume deleted.' : 'Resume could not be deleted.'); if (response.ok) refreshResumes() }}>Delete</button></div>) : <div className="empty-state">No resumes uploaded yet.</div>}{resumeNotice && <p className="auth-message notice" role="status">{resumeNotice}</p>}</section>
 
           <div className="lower-grid"><section><div className="section-heading compact"><div><h2>Latest insight</h2><p>Derived from the most recent persisted result.</p></div></div><div className="insight-card">{analyses[0] ? <><div className="insight-top"><div className="insight-symbol"><Sparkles size={17} /></div><span className="tag">EVIDENCE-GROUNDED</span></div><h3>{analyses[0].result.requirements.find((requirement) => requirement.status !== 'matched')?.label ?? 'All detected requirements matched'}</h3><p>{analyses[0].result.requirements.find((requirement) => requirement.status !== 'matched')?.evidence ?? 'No evidence gaps were recorded in the latest executed analysis.'}</p></> : <><h3>No insight yet</h3><p>Run an analysis with an uploaded resume and job description to generate evidence-backed guidance.</p></>}</div></section><section><div className="section-heading compact"><div><h2>Skill coverage</h2><p>From persisted analysis evidence.</p></div></div><div className="skill-card">{analyses[0]?.result.requirements.length ? analyses[0].result.requirements.map((requirement) => <div className="skill-row" key={requirement.label}><div className={`skill-dot ${requirement.status === 'matched' ? 'success' : requirement.status === 'partial' ? 'warning' : 'danger'}`}></div><div className="skill-main"><strong>{requirement.label}</strong><span>{requirement.evidence ?? 'No matching resume evidence'}</span></div><span className={`status-pill ${requirement.status === 'matched' ? 'success' : requirement.status === 'partial' ? 'warning' : 'danger'}`}>{requirement.status}</span></div>) : <div className="empty-state">Pending a real analysis run.</div>}</div></section></div>
           {selectedAnalysis && <SavedReport analysis={selectedAnalysis} onClose={() => setSelectedAnalysis(null)} />}

@@ -32,6 +32,18 @@ describe('security configuration', () => {
     expect(schema).toContain('exists (select 1 from manuscript_sections')
   })
 
+  it('defines isolated profile RLS and private storage policies', () => {
+    const profiles = readFileSync(resolve(process.cwd(), 'supabase/phase1-audit.sql'), 'utf8')
+    const schema = readFileSync(resolve(process.cwd(), 'supabase/schema.sql'), 'utf8')
+
+    expect(profiles).toContain('references auth.users(id)')
+    expect(profiles).toContain('alter table profiles enable row level security')
+    expect(profiles).toContain('using (id = auth.uid())')
+    expect(profiles).toContain('with check (id = auth.uid())')
+    expect(schema).toContain("values ('resumes', 'resumes', false)")
+    expect(schema).toContain("bucket_id = 'resumes' and (storage.foldername(name))[1] = auth.uid()::text")
+  })
+
   it('keeps protected resume and report routes behind session checks', () => {
     const resumeRoute = readFileSync(resolve(process.cwd(), 'app/api/resumes/route.ts'), 'utf8')
     const reportRoute = readFileSync(resolve(process.cwd(), 'app/api/analyses/[id]/route.ts'), 'utf8')
@@ -54,6 +66,33 @@ describe('security configuration', () => {
     expect(analysesRoute).toContain('[resumeId, auth.user.id]')
     expect(reportRoute).toContain('WHERE id = $1 AND owner_id = $2 LIMIT 1')
     expect(reportRoute).toContain('[id, auth.user.id]')
+  })
+
+  it('keeps research and manuscript writes owner-scoped', () => {
+    const researchRoute = readFileSync(resolve(process.cwd(), 'app/api/research/route.ts'), 'utf8')
+
+    expect(researchRoute).toContain('const auth = await getAuthenticatedUser()')
+    expect(researchRoute).toContain("if (!auth.user)")
+    expect(researchRoute).toContain('WHERE id = $1 AND owner_id = $2 LIMIT 1')
+    expect(researchRoute).toContain('[body.sectionId, auth.user.id]')
+    expect(researchRoute).toContain('[auth.user.id, body.sectionId, body.content]')
+    expect(researchRoute).toContain('[auth.user.id, config.name, config.kind, config]')
+    expect(researchRoute).toContain("[auth.user.id, experiment.rows[0].id, 'executed', result]")
+    expect(researchRoute).toContain('WHERE owner_id = $1')
+    expect(researchRoute).not.toContain('demo-user')
+  })
+
+  it('has no active demo-owner implementation references', () => {
+    for (const file of [
+      'app/api/resumes/route.ts',
+      'app/api/analyses/route.ts',
+      'app/api/analyses/[id]/route.ts',
+      'app/api/research/route.ts',
+      'lib/auth.ts',
+      'lib/db.ts',
+    ]) {
+      expect(readFileSync(resolve(process.cwd(), file), 'utf8')).not.toContain('demo-user')
+    }
   })
 
   it('persists and retrieves the structured analysis result through the owner-scoped API', () => {
@@ -82,5 +121,29 @@ describe('security configuration', () => {
     expect(proxy).toContain("request.nextUrl.pathname === '/'")
     expect(proxy).toContain("url.pathname = '/auth/signin'")
     expect(signOut).toContain("fetch('/api/auth/signout'")
+  })
+
+  it('provides owner-scoped resume management and workflow cleanup', () => {
+    const resumeList = readFileSync(resolve(process.cwd(), 'app/api/resumes/route.ts'), 'utf8')
+    const resumeItem = readFileSync(resolve(process.cwd(), 'app/api/resumes/[id]/route.ts'), 'utf8')
+    const analysesRoute = readFileSync(resolve(process.cwd(), 'app/api/analyses/route.ts'), 'utf8')
+    expect(resumeList).toContain('WHERE owner_id = $1')
+    expect(resumeItem).toContain('WHERE id = $1 AND owner_id = $2')
+    expect(resumeItem).toContain("storage.from('resumes').remove")
+    expect(analysesRoute).toContain('workflow_token')
+    expect(analysesRoute).toContain('cleanupFailedWorkflowResume')
+  })
+
+  it('provides persisted manuscript and profile APIs', () => {
+    const manuscripts = readFileSync(resolve(process.cwd(), 'app/api/manuscripts/route.ts'), 'utf8')
+    const profile = readFileSync(resolve(process.cwd(), 'app/api/me/route.ts'), 'utf8')
+    const page = readFileSync(resolve(process.cwd(), 'app/page.tsx'), 'utf8')
+    expect(manuscripts).toContain('manuscript_sections')
+    expect(manuscripts).toContain('manuscript_revisions')
+    expect(manuscripts).toContain('owner_id')
+    expect(profile).toContain('getAuthenticatedUser')
+    expect(page).not.toContain('Jordan Davis')
+    expect(page).not.toContain('MONDAY, OCTOBER 10, 2026')
+    expect(page).not.toContain('create a section in the research database to save revisions')
   })
 })

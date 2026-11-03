@@ -3,6 +3,7 @@ pmOnFail: ignore
 minimumReleaseAgeExclude:
   - '@next/*'
   - next
+  - eslint-config-next@16.4.4
 
 allowBuilds:
-  unrs-resolver: set this to true or false
+  unrs-resolver: true
