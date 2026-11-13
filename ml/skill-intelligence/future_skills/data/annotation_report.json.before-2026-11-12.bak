@@ -1,0 +1,19 @@
+{
+  "total_candidates": 258,
+  "reviewed_examples": 63,
+  "accepted_examples": 53,
+  "rejected_examples": 10,
+  "gold_examples": 0,
+  "counts_per_task": {
+    "skill_extraction": 63
+  },
+  "canonical_mapping_accuracy": null,
+  "missing_evidence_count": 0,
+  "unsupported_skill_count": 0,
+  "reviewer_completion_percentage": 24.42,
+  "reviewed_training_examples": 53,
+  "gold_evaluation_examples": 29,
+  "gold_overlaps_training": false,
+  "note": "Mapping accuracy is unavailable until reviewed labels include an independent corrected reference; weak labels are not used as ground truth.",
+  "gold_overlaps_validation": false
+}

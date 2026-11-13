@@ -1,0 +1,14 @@
+flowchart LR
+  N0["Resume + job text<br/>research input"]
+  N1["Deterministic analysis<br/>current analyzer"]
+  N2["Keyword baseline<br/>token overlap"]
+  N3["Transformations<br/>remove / reorder / verb substitution"]
+  N4["Comparison<br/>score and qualification-preservation fields"]
+  N5["Persistence<br/>research experiment and run tables"]
+  N0 --> N1
+  N0 --> N2
+  N0 --> N3
+  N1 --> N4
+  N2 --> N4
+  N3 --> N4
+  N4 --> N5

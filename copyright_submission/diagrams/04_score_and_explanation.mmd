@@ -1,0 +1,14 @@
+flowchart LR
+  N0["Requirement states<br/>per requirement"]
+  N1["Weights<br/>required 5 / preferred 3"]
+  N2["State credits<br/>1 / .55 / .35 / 0"]
+  N3["Coverage score<br/>weighted evidence index"]
+  N4["What-if<br/>temporarily treat one state matched"]
+  N5["Explanation<br/>evidence + arithmetic"]
+  N0 --> N1
+  N0 --> N2
+  N1 --> N3
+  N2 --> N3
+  N0 --> N4
+  N3 --> N5
+  N4 --> N5

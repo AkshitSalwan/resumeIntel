@@ -1,0 +1,37 @@
+{
+  "total_candidates": 117,
+  "candidate_examples": 0,
+  "ai_assisted_examples": 112,
+  "human_reviewed_examples": 5,
+  "ai_assisted_uncertain_examples": 54,
+  "ai_assisted_skills_added": 25,
+  "ai_assisted_skills_removed": 210,
+  "ai_assisted_system_ids": [
+    "codex-ai-assistant (model identifier unavailable)"
+  ],
+  "ai_assisted_timestamps": [
+    "2026-11-12T06:04:55.899249+00:00"
+  ],
+  "decision_counts": {
+    "ai_assisted": 112,
+    "reviewed": 5
+  },
+  "reviewed_examples": 5,
+  "accepted_examples": 5,
+  "rejected_examples": 0,
+  "gold_examples": 0,
+  "counts_per_task": {
+    "skill_extraction": 117
+  },
+  "canonical_mapping_accuracy": null,
+  "missing_evidence_count": 0,
+  "unsupported_skill_count": 0,
+  "reviewer_completion_percentage": 4.27,
+  "reviewed_training_examples": 0,
+  "gold_evaluation_examples": 29,
+  "gold_overlaps_training": false,
+  "ai_assisted_labels_are_pseudo_labels": true,
+  "ai_assisted_labels_are_human_verified": false,
+  "note": "AI-assisted labels are pseudo-labels, not independent ground truth; do not compute human-verified evaluation metrics against them. Mapping accuracy is unavailable without an independent corrected reference.",
+  "gold_overlaps_validation": false
+}

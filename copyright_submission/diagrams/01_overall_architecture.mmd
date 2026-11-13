@@ -1,0 +1,18 @@
+flowchart LR
+  N0["Browser UI<br/>Next.js / React"]
+  N1["Auth<br/>Supabase SSR session"]
+  N2["API routes<br/>Next.js server routes"]
+  N3["Analysis engine<br/>Deterministic TypeScript"]
+  N4["PostgreSQL<br/>RLS scoped records"]
+  N5["Private storage<br/>Owner-prefixed resumes"]
+  N6["Research workspace<br/>Baseline / experiments"]
+  N7["Forecast modules<br/>Experimental / unavailable"]
+  N0 --> N1
+  N1 --> N2
+  N0 --> N2
+  N2 --> N3
+  N2 --> N4
+  N2 --> N5
+  N3 --> N2
+  N2 --> N6
+  N6 --> N4

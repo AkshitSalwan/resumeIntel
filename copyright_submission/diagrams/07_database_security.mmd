@@ -1,0 +1,13 @@
+flowchart LR
+  N0["Supabase Auth<br/>server-verified user"]
+  N1["API route<br/>owner derived from session"]
+  N2["PostgreSQL<br/>owner_id + transactions"]
+  N3["RLS<br/>auth.uid() ownership policies"]
+  N4["Private Storage<br/>folder prefix = user ID"]
+  N5["Analysis JSON<br/>saved requirement report"]
+  N0 --> N1
+  N1 --> N2
+  N2 --> N3
+  N1 --> N4
+  N1 --> N5
+  N5 --> N2

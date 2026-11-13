@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-11-09T07:50:42.627916+00:00",
+  "dataset_status": "unavailable",
+  "coverage": {
+    "status": "unavailable",
+    "total_job_postings": 0,
+    "unique_companies": 0,
+    "unique_job_titles": 0,
+    "unique_normalized_skills": 0,
+    "industries": 0,
+    "geographic_regions": 0,
+    "earliest_posting_date": null,
+    "latest_posting_date": null,
+    "postings_by_year": {},
+    "postings_by_month": {},
+    "source_distribution": {},
+    "source_inventory": [],
+    "missing_years": [],
+    "temporal_comparison_sufficient": false
+  },
+  "quality": {
+    "records_received": 0,
+    "valid_records": 0,
+    "rejected_records": 0,
+    "duplicate_records": 0,
+    "missing_posting_dates": 0,
+    "missing_job_descriptions": 0,
+    "missing_locations": 0
+  },
+  "role_assignments": {},
+  "annual_skill_demand": [],
+  "skill_distribution": [],
+  "industry_skill_distribution": {},
+  "region_skill_distribution": {},
+  "skill_cooccurrence": [],
+  "readiness": {
+    "dimensions": {
+      "historical_time_coverage": "Requires more data",
+      "geographic_coverage": "Insufficient evidence",
+      "role_coverage": "Requires more data",
+      "missing_data": "Sufficient for initial experimentation",
+      "overall": "Not ready for forecasting"
+    },
+    "basis": "Rule-based readiness labels; no arbitrary confidence score is calculated."
+  },
+  "visualizations": []
+}

@@ -1,0 +1,13 @@
+flowchart LR
+  N0["Job description<br/>Normalize and split lines"]
+  N1["Taxonomy<br/>12 canonical IDs + aliases"]
+  N2["Requirement parser<br/>Recognized terms / unmapped bullets"]
+  N3["Resume text<br/>Section-aware lines"]
+  N4["Evidence matcher<br/>Complete-term alias search"]
+  N5["Requirement result<br/>matched / partial / missing / uncertain"]
+  N0 --> N1
+  N1 --> N2
+  N0 --> N2
+  N3 --> N4
+  N2 --> N4
+  N4 --> N5

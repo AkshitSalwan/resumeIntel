@@ -22,9 +22,11 @@ import {
   ShieldCheck,
   Sparkles,
   Target,
+  TrendingUp,
   Upload,
   X,
 } from 'lucide-react'
+import Link from 'next/link'
 
 type StoredAnalysis = {
   id: string
@@ -200,6 +202,7 @@ export default function Page() {
         <div className="workspace"><div className="avatar">{initials}</div><div><p className="workspace-name">{displayName}</p><p className="workspace-sub">Personal workspace</p></div><ChevronDown size={14} /></div>
         <nav className="nav-list" aria-label="Main navigation">
           {nav.map(({ label, icon: Icon }) => <button key={label} className={`nav-item ${active === label ? 'active' : ''}`} onClick={() => { setActive(label); setShowUpload(false); if (label === 'Robustness lab' || label === 'Research') notify(`${label} workspace is ready for your next experiment`) }}><Icon size={17} /><span>{label}</span>{label === 'Research' && researchRuns.length > 0 && <span className="nav-badge">{researchRuns.length}</span>}</button>)}
+          <Link className="nav-item" href="/dashboard/forecast"><TrendingUp size={17} /><span>Future skills</span></Link>
         </nav>
         <div className="sidebar-bottom"><button className="nav-item"><Settings size={17} /><span>Settings</span></button><button className="nav-item"><CircleHelp size={17} /><span>Help center</span></button><SignOutButton /><div className="privacy-note"><ShieldCheck size={16} /><span>Your resume stays private</span></div></div>
       </aside>

@@ -1,0 +1,16 @@
+flowchart LR
+  N0["Job sources<br/>Greenhouse / Ashby snapshots"]
+  N1["Normalize + curate<br/>500 descriptions; temporal metadata sparse"]
+  N2["Human-reviewed data<br/>56 train; 5 validation; 29 gold"]
+  N3["AI-assisted data<br/>112 pseudo-labels; excluded from initial train"]
+  N4["QLoRA training gate<br/>Qwen 3 4B; currently blocked"]
+  N5["Adapter inference<br/>No trained adapter exists"]
+  N6["Forecasting service/UI<br/>Separate pipeline; UI unavailable"]
+  N0 --> N1
+  N1 --> N2
+  N1 --> N3
+  N2 --> N4
+  N4 --> N5
+  N1 --> N6
+  classDef experimental fill:#fff2dd,stroke:#c77b16,stroke-dasharray: 5 5
+  class N0,N1,N2,N3,N4,N5,N6 experimental

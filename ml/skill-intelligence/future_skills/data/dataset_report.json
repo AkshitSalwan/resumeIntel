@@ -1,0 +1,25 @@
+{
+  "status": "candidate_labels_only",
+  "dataset_version": "weak-dictionary-v1",
+  "total": 500,
+  "splits": {
+    "train": 258,
+    "validation": 117,
+    "test": 125
+  },
+  "validation": {
+    "valid": true,
+    "count": 500,
+    "failures": [],
+    "by_task": {
+      "skill_extraction": 500
+    },
+    "by_review_status": {
+      "candidate": 500
+    },
+    "gold_count": 0
+  },
+  "human_reviewed": 0,
+  "gold_evaluation": 0,
+  "future_outcome_training": "disabled_insufficient_historical_outcomes"
+}

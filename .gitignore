@@ -16,3 +16,13 @@ node_modules
 .next/
 *.tsbuildinfo
 .DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+ml/skill-intelligence/data/*
+!ml/skill-intelligence/data/.gitkeep
+ml/skill-intelligence/collection/data/*
+!ml/skill-intelligence/collection/data/.gitkeep
+ml/skill-intelligence/artifacts/*
+!ml/skill-intelligence/artifacts/.gitkeep
+ml/skill-intelligence/.venv*/

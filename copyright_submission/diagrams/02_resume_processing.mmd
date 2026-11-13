@@ -1,0 +1,12 @@
+flowchart LR
+  N0["User session<br/>Verified user identity"]
+  N1["Upload API<br/>PDF or DOCX; <=10 MB"]
+  N2["Validation<br/>MIME + file signature"]
+  N3["Extraction<br/>PDF.js / Mammoth"]
+  N4["Text check<br/>Normalize; minimum readable length"]
+  N5["Private storage<br/>Owner path + database row"]
+  N0 --> N1
+  N1 --> N2
+  N2 --> N3
+  N3 --> N4
+  N4 --> N5

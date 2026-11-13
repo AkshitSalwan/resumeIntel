@@ -1,0 +1,23 @@
+{
+  "base_model": "Qwen/Qwen3-4B-Instruct-2507",
+  "revision": null,
+  "max_seq_length": 1024,
+  "per_device_train_batch_size": 1,
+  "gradient_accumulation_steps": 8,
+  "gradient_checkpointing": true,
+  "learning_rate": 0.0001,
+  "warmup_ratio": 0.03,
+  "weight_decay": 0.01,
+  "num_train_epochs": 2,
+  "evaluation_strategy": "epoch",
+  "minimum_reviewed_training_examples": 50,
+  "minimum_reviewed_validation_examples": 10,
+  "minimum_gold_evaluation_examples": 20,
+  "seed": 42,
+  "resume_from_checkpoint": null,
+  "lora_r": 16,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "low_memory_max_seq_length": 512,
+  "low_memory_gradient_accumulation_steps": 4
+}
