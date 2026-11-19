@@ -1,0 +1,83 @@
+{
+  "documents" : [
+    {
+      "blankPages" : [
+
+      ],
+      "bytes" : 162493,
+      "encrypted" : false,
+      "file" : "01_Project_Abstract.pdf",
+      "pages" : 1,
+      "pagesWithoutExtractableText" : [
+
+      ],
+      "textCharacters" : 3646
+    },
+    {
+      "blankPages" : [
+
+      ],
+      "bytes" : 371260,
+      "encrypted" : false,
+      "file" : "02_Technical_Documentation.pdf",
+      "pages" : 7,
+      "pagesWithoutExtractableText" : [
+
+      ],
+      "textCharacters" : 10660
+    },
+    {
+      "blankPages" : [
+
+      ],
+      "bytes" : 205627,
+      "encrypted" : false,
+      "file" : "03_Originality_and_Contribution_Report.pdf",
+      "pages" : 1,
+      "pagesWithoutExtractableText" : [
+
+      ],
+      "textCharacters" : 4462
+    },
+    {
+      "blankPages" : [
+
+      ],
+      "bytes" : 220145,
+      "encrypted" : false,
+      "file" : "04_System_Architecture_and_Workflows.pdf",
+      "pages" : 5,
+      "pagesWithoutExtractableText" : [
+
+      ],
+      "textCharacters" : 3600
+    },
+    {
+      "blankPages" : [
+
+      ],
+      "bytes" : 131820,
+      "encrypted" : false,
+      "file" : "05_Repository_and_Development_Evidence.pdf",
+      "pages" : 2,
+      "pagesWithoutExtractableText" : [
+
+      ],
+      "textCharacters" : 2955
+    },
+    {
+      "blankPages" : [
+
+      ],
+      "bytes" : 518456,
+      "encrypted" : false,
+      "file" : "ResumeIntel_Supporting_Documents.pdf",
+      "pages" : 20,
+      "pagesWithoutExtractableText" : [
+
+      ],
+      "textCharacters" : 25586
+    }
+  ],
+  "validatedAt" : "2026-11-14T11:12:46Z"
+}

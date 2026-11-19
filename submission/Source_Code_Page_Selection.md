@@ -1,0 +1,288 @@
+# Source-code page selection
+
+- Complete ordered compilation: **138 source pages** (cover excluded).
+- Final PDF: **21 pages** including its separate cover; **20 source pages**.
+- Source order: principal ResumeIntel assessment and processing code first, then authenticated API/persistence, UI, tests, forecasting, and ML code; training implementation is last. Each relative path appears in the manifest.
+- The complete compilation was paginated before selection. The selected pages are actual page numbers from that compilation, not a selection of first/last files.
+
+## First 10 source pages
+
+- Source page 1: `lib/analysis.ts` lines 1-75
+- Source page 2: `lib/analysis.ts` lines 76-143
+- Source page 3: `lib/analysis.ts` lines 144-207
+- Source page 4: `lib/analysis.ts` lines 208-278
+- Source page 5: `lib/analysis.ts` lines 279-343
+- Source page 6: `lib/analysis.ts` lines 344-400; `lib/resume-extraction.ts` lines 1-13
+- Source page 7: `lib/resume-extraction.ts` lines 14-65; `lib/research.ts` lines 1-21
+- Source page 8: `lib/research.ts` lines 22-56; `app/api/resumes/route.ts` lines 1-24
+- Source page 9: `app/api/resumes/route.ts` lines 25-82; `app/api/analyses/route.ts` lines 1-6
+- Source page 10: `app/api/analyses/route.ts` lines 7-73
+
+## Last 10 source pages
+
+- Source page 129: `ml/skill-intelligence/future_skills/train.py` lines 244-311
+- Source page 130: `ml/skill-intelligence/future_skills/train.py` lines 312-343; `ml/skill-intelligence/src/training/__init__.py` lines 1-1; `ml/skill-intelligence/src/training/callbacks.py` lines 1-15; `ml/skill-intelligence/src/training/config.py` lines 1-10; `ml/skill-intelligence/src/training/hardware.py` lines 1-7
+- Source page 131: `ml/skill-intelligence/src/training/hardware.py` lines 8-79
+- Source page 132: `ml/skill-intelligence/src/training/hardware.py` lines 80-98; `ml/skill-intelligence/src/training/train.py` lines 1-54
+- Source page 133: `ml/skill-intelligence/src/training/train.py` lines 55-130
+- Source page 134: `ml/skill-intelligence/src/training/train.py` lines 131-202
+- Source page 135: `ml/skill-intelligence/src/training/train.py` lines 203-277
+- Source page 136: `ml/skill-intelligence/src/training/train.py` lines 278-350
+- Source page 137: `ml/skill-intelligence/src/training/train.py` lines 351-420
+- Source page 138: `ml/skill-intelligence/src/training/train.py` lines 421-443
+
+## Source files and complete-compilation line counts
+
+- `lib/analysis.ts`: 400 lines; SHA-256 `b3e78f6b3a58b878c9d7d1262d7e2e1b365a75f66bad8914406d1dc9614b345c`
+- `lib/resume-extraction.ts`: 65 lines; SHA-256 `af953aaf2cdc771ec8efe267ac4f264c6d6769c2ea4c9a5784606fcdaf5491fd`
+- `lib/research.ts`: 56 lines; SHA-256 `47631c95fa34f727d25b55e1c39e076065649035b8f95b0233d4bcc1ad8fd2c5`
+- `app/api/resumes/route.ts`: 82 lines; SHA-256 `93eb91ba68bae5e4473cb8b5e547119a5401b789ff00d2ccb559ea201e501f8a`
+- `app/api/analyses/route.ts`: 82 lines; SHA-256 `407bfb99bc812591806524bb54b201015f55bb5efb34ba3cb7f4b12926e981a4`
+- `lib/auth.ts`: 21 lines; SHA-256 `96521165912d7cdc1ea8cea5babdc42feebc50aa497cfc97978431196a1eb975`
+- `lib/db.ts`: 43 lines; SHA-256 `7a486ba276f675e27c7e5c542a3e2f675a0b46959cf41792b9e3e943526db7ad`
+- `supabase/schema.sql`: 156 lines; SHA-256 `99074a9c63cdecf9a4f049e56d253d0baee891d74b4ca88280c53fbcf1e6d2b5`
+- `app/page.tsx`: 260 lines; SHA-256 `0f62c9c1dc95b11b03ff8f7b5ce72ed071b69bb3dbe2cd31784be0ace7741c2e`
+- `components/research-workspace.tsx`: 38 lines; SHA-256 `f139b7d7196c1defa51f60c48ec75103bf5d3e1b9afe65c170ea81a73c51ef35`
+- `tests/analysis.test.ts`: 209 lines; SHA-256 `a082a228b5bef528dae3481282b709105e21bfed39c2438788b10707ffb94d00`
+- `app/api/analyses/[id]/route.ts`: 23 lines; SHA-256 `7653da8b0fd5371f057815ef3572d9206305977af3c61cd373fe6cf76549385c`
+- `app/api/auth/signout/route.ts`: 19 lines; SHA-256 `281859c75b3198daaa89579bfa987bcc4b47b317f6f4aa068400715d9a8b265e`
+- `app/api/forecast/generate/route.ts`: 11 lines; SHA-256 `0f3bfb392f47b42b09e9f61dcc900cf4cf226bcd4f79db54142ff1b29ec760a5`
+- `app/api/forecast/overview/route.ts`: 14 lines; SHA-256 `5e0f33d6a5115c7e146ee191c809f540f275a35cd6d757e783e798fb26b28768`
+- `app/api/forecast/personalized/route.ts`: 11 lines; SHA-256 `a4de90a82567b07b307c959d3d894b259e7baf5040b1b87b092589021bde2c3e`
+- `app/api/forecast/skills/[skillId]/route.ts`: 14 lines; SHA-256 `c2fecb50112ddb6edd0e67b958aa69c35ea37a406f7f3ff4b30df6abb1c0fdc8`
+- `app/api/forecast/skills/route.ts`: 14 lines; SHA-256 `12a84ffc8c40f476c7b1361cb0f8fe5671abb3b6482671a1684f1eb4bf2bd582`
+- `app/api/future-skills/status/route.ts`: 23 lines; SHA-256 `5b29dccbdafd4f44280bc6e1e4e4ea09611a95196c47718fabfdf2d66d30dd58`
+- `app/api/manuscripts/route.ts`: 63 lines; SHA-256 `3a9a3fde4740a3a3b85c1a918edcfd7e084b2d00e72ce18a36f1e94fddec655d`
+- `app/api/me/route.ts`: 17 lines; SHA-256 `16c8f2f1537ab9344f0ff190279a4b10c427c214e6b0c16973cedb5dc0045ed8`
+- `app/api/research/route.ts`: 58 lines; SHA-256 `fdf0eab707536b678cb02e91a810b9576fc7a4d150f456295a9440c0671fbc36`
+- `app/api/resumes/[id]/route.ts`: 84 lines; SHA-256 `1e063fd8496a3dbbc472e5cf6d2c21746d3c0aa26b17579966047d1dc454d8ed`
+- `app/auth/signin/page.tsx`: 6 lines; SHA-256 `8765c6a9c376642034574f534112708580171ccb248d1dc0d97a001663efbb86`
+- `app/auth/signup/page.tsx`: 6 lines; SHA-256 `76c97b3d9fcbc1976349767350670545727813f8add98748da5983baea0acb62`
+- `app/dashboard/forecast/page.tsx`: 11 lines; SHA-256 `146530d728bf3c1fae0f90a453861ab3fb44f27c5dfd8bcac3613f5398ff6eec`
+- `app/globals.css`: 43 lines; SHA-256 `85809b42a4fad3aac6b5117328fa9ceaeee0fd616908d200ea6fd240b0be962a`
+- `app/layout.tsx`: 19 lines; SHA-256 `10e9c0374e0cf2e1c1f1fcbbed7c1e0389ec955b989a31d486990a5a15369253`
+- `components.json`: 21 lines; SHA-256 `1301860ec7b710eaa7455957545ee4e756e361215cb29cc4cce2192eb47e45fb`
+- `components/auth-form.tsx`: 56 lines; SHA-256 `7430b3e078f2ef20ebdfa059e1d015531e1f7228c53b68a31558d9141bcb75f7`
+- `components/future-skill-forecast.tsx`: 78 lines; SHA-256 `1f7b3bd2ab53c8e614af1def2b591fa4754495c24edb22f61e71e4c402734535`
+- `components/sign-out-button.tsx`: 27 lines; SHA-256 `9cf6411252b38fe0c50cabd1ac92858f22cb3b5d6bbbb0388775ef717e5f9126`
+- `components/ui/button.tsx`: 58 lines; SHA-256 `4e679215c9c8480ea8b876cf74d77c1225da544adaf6acba43634a434275a69d`
+- `eslint.config.mjs`: 14 lines; SHA-256 `d61cf1132e588b744d8245fd958065eb2a2e6b1b70e2e4c8a75e678c7d545783`
+- `forecasting/__init__.py`: 3 lines; SHA-256 `fe9b93bd611aa241892edff2da0385387ef86dee71e7b9803e566315c58627a3`
+- `forecasting/analytics/__init__.py`: 3 lines; SHA-256 `be39c68c9b2769646b2619cbfa4f785450bd0655e5765900da199f6d0ca61df4`
+- `forecasting/analytics/cooccurrence.py`: 35 lines; SHA-256 `e4b3f79ab0d7b18f06a160771a530208a28ff328a1d46bcd139de3fb6498ce8c`
+- `forecasting/analytics/coverage.py`: 42 lines; SHA-256 `f30225e526a0bbefd4b8b3ac1b23a3d4b6b5f2cde58758aa970c4595ba1097a6`
+- `forecasting/analytics/demand_aggregation.py`: 38 lines; SHA-256 `c3818c387efb192c6cec342f6cb24580dfea06f21790a69c232f9c6550808370`
+- `forecasting/analytics/distributions.py`: 41 lines; SHA-256 `c4573bc40b87cf0576a21ef93c06669d62d3da62158ff4890fdec3ea0929814b`
+- `forecasting/analytics/filters.py`: 17 lines; SHA-256 `537f9946c440326ea58be6ad57e1330a8748a123965c9d337c6dcc14e308786b`
+- `forecasting/analytics/roles.py`: 31 lines; SHA-256 `1c9844f785a7c6e555eb2bc719a1cf8422f4e3d95fe12264fdd2cdb5a60fa38e`
+- `forecasting/analytics/trends.py`: 33 lines; SHA-256 `84a2c1e9d3596a4f123cae06f0065ec3a13d0bbbf460f25b13e6d6aca0506a01`
+- `forecasting/analytics/visualizations.py`: 53 lines; SHA-256 `5f3152b15fbab2596e18cc27dfd152fd53e70886ce101031fb11f94be4422507`
+- `forecasting/cli.py`: 47 lines; SHA-256 `b135ddea6d94ba605654fa035682fd8b369bdd652b68f64539ab7ca6636b8967`
+- `forecasting/engine/__init__.py`: 20 lines; SHA-256 `f2728d8243bf0b79e6a2a305cb76d0dbed92f7d01f6715d9da21f503f8e01d51`
+- `forecasting/engine/data.py`: 102 lines; SHA-256 `bc8c847af3c36dd533e70b740a262bb92da0a82055ef3a701e948659e976ee4d`
+- `forecasting/engine/emerging.py`: 33 lines; SHA-256 `ea5da2496834f6e815f65f1126667982403c2cdf39e29e85dfee93db34b46bb8`
+- `forecasting/engine/evaluation.py`: 36 lines; SHA-256 `9bb5fa2114c2d75e6b2cb0599864f3353f7130edaa3d46346328b38a7aed6985`
+- `forecasting/engine/models.py`: 47 lines; SHA-256 `3f0d8b02d4a2e674f44888d7641841f6e4df6279eb0ee95b43d1553ffac56586`
+- `forecasting/engine/timeseries.py`: 35 lines; SHA-256 `f093853fd8feadef1d28e203cdc3a4baf09711a1c2b7dfd9ba697a1d65243a12`
+- `forecasting/ingestion/__init__.py`: 3 lines; SHA-256 `64aa5a8af96a28fc6f1a6430e274adc5152021bb1632cd77e75c6a95a1519f68`
+- `forecasting/ingestion/loaders.py`: 25 lines; SHA-256 `686eb153f08ba7264915089f436509088985948d9dc27543b949d6087733cb80`
+- `forecasting/pipelines/__init__.py`: 3 lines; SHA-256 `23dbbe64e1404ce2496a89749929e4ac6aafe55a9a3f7c0214b2791a7e214121`
+- `forecasting/pipelines/pipeline.py`: 57 lines; SHA-256 `e6aaefeda4577eb1ca998af204e47c718c51ac47a483179f4b31c7db686ca047`
+- `forecasting/preprocessing/__init__.py`: 4 lines; SHA-256 `dd00f24380270a4dff6df3c146bfaba49c872b0c4abf5db616234f6439cc35c5`
+- `forecasting/preprocessing/cleaning.py`: 91 lines; SHA-256 `66b677982e0ce34baa981ee340586d1544bb6dc5420676bc89f873e7e6c13ecf`
+- `forecasting/preprocessing/deduplication.py`: 26 lines; SHA-256 `47ff68583c335b4183a52453ece827c42383035af86e7779e64e6632753e1c71`
+- `forecasting/reports/__init__.py`: 3 lines; SHA-256 `4c846a5b219d7a5e9e59b83c0adc1454cd569bf056169411ca3b67333fa4207f`
+- `forecasting/reports/eda_report.py`: 92 lines; SHA-256 `815e1236bbd63439c56581bc88add3f6150f56914646e505edcb665a52f70683`
+- `forecasting/reports/quality.py`: 36 lines; SHA-256 `0d4497e21f591b328c6792169c2db1e16508fcdef123fbb3ea0d79de5d059bee`
+- `forecasting/reports/readiness.py`: 12 lines; SHA-256 `eedbdb5318a751e782f5059932aab09e2ffd2a484c20fb699a0628655ce2c1ac`
+- `forecasting/schemas/__init__.py`: 4 lines; SHA-256 `929b904a89677eb1b23e70ee48378392d6686c1fc323d84d46ada3f5bb29cb45`
+- `forecasting/schemas/job_posting.py`: 45 lines; SHA-256 `11f3bf343df671947248766b48fe45670194cc6fdc6e7f119830bc6bac7f949c`
+- `forecasting/schemas/skill.py`: 24 lines; SHA-256 `a42c17c2e3a6e55de308e73708bc1b9aa4a0a213e6c54075f4df946d97f70888`
+- `forecasting/scripts/__init__.py`: 1 lines; SHA-256 `2afe60b1a0504adf8389ec5c009460bcf0c69c8890d715addceca6c18ccc811e`
+- `forecasting/scripts/run_forecast_audit.py`: 52 lines; SHA-256 `084aa7ac5163203014e7cd888440ebb4f976e54cd306a7c33ab0140752d0ec66`
+- `forecasting/taxonomy/__init__.py`: 4 lines; SHA-256 `e402722d1d392093d321c2ccf60ef9adcfe625147177f8ab27a30b976f3dba62`
+- `forecasting/taxonomy/skill_dictionary.py`: 78 lines; SHA-256 `4751d76c317efb76df21aaa2a041acba4bfda769cb9a43dedf51f3965d7994fa`
+- `forecasting/taxonomy/skill_normalizer.py`: 50 lines; SHA-256 `9d0b666cbc9058509d33215031dda297c81413706d202f1632734dbdaffc34c5`
+- `forecasting/tests/test_eda.py`: 74 lines; SHA-256 `b51c2d64a32615c4713478f2dbb04d398d8e9a06696ca2b68d553c6712b5e681`
+- `forecasting/tests/test_engine.py`: 42 lines; SHA-256 `3e87ff9a8bb9ede4ed2e2499d031b0a4726d0b421be012a90ad729f63be1e170`
+- `forecasting/tests/test_pipeline.py`: 121 lines; SHA-256 `d68e4e7b2e4596b3eaa400fd56ec3d3e6409e4f9bfad9eb49c565a8cc73d485f`
+- `lib/auth-validation.ts`: 36 lines; SHA-256 `b5f3b85adb0127fd392a32ba5c00dbd072f5b69e6eb9bd14d2b434b2a2e4bca5`
+- `lib/date-format.ts`: 13 lines; SHA-256 `57d6181d154dedc7257455327a984c6543a7cbd6d50a8d26f481ae6bdeede475`
+- `lib/forecast/readiness.ts`: 29 lines; SHA-256 `4a554b301357a6401916a78573f63f98e90bb7f2bf6a9c3188f61e72f77d4e29`
+- `lib/forecast/types.ts`: 61 lines; SHA-256 `4bd791b2adb2efa14bed00ef1c921fc8cd9db84e1d1ab881fa6eb82f792a4f07`
+- `lib/forecast/unavailable.ts`: 11 lines; SHA-256 `a657a68531dbf5f9983293ac24434557bff70d855808a7d29ab2acbb04e9cc37`
+- `lib/forecast/validation.ts`: 43 lines; SHA-256 `f376c06aa3349952ed87c925230aa33adf3e0b6a8497f45a87d1b8517735011e`
+- `lib/supabase/browser.ts`: 14 lines; SHA-256 `d4d683dc1dc6a361e16b1ec50d9520a8fd5fdfae0eef939f89e4662040f232a9`
+- `lib/supabase/config.ts`: 8 lines; SHA-256 `3520cc3f4a3fb9912c9cc1327837f87e2c892dbb75116c0e32bb07af5e4f2482`
+- `lib/supabase/server.ts`: 22 lines; SHA-256 `380d754b07ac3ebfbc04bd633e34dc8420868fef94aaef872f01ae8751842345`
+- `lib/utils.ts`: 6 lines; SHA-256 `e46429536f43f5910f5b2b0c50bb2769b510a4558bb4b5d20a3b0a9091dbf7c3`
+- `ml/skill-intelligence/collection/__init__.py`: 1 lines; SHA-256 `dd4cf3681926cfa3402762e84d7385f71b2c3130a6f1292ab1a7887b287d36a7`
+- `ml/skill-intelligence/collection/collector.py`: 203 lines; SHA-256 `8a205f1e196076c69bd248e6f8901545a391591d89e4d3d28fd24803a113e9cd`
+- `ml/skill-intelligence/collection/country.py`: 78 lines; SHA-256 `3219cf4a27b0215af6d31262f6b26fc676ed789126bca76007a042041567b605`
+- `ml/skill-intelligence/collection/deduplicate.py`: 26 lines; SHA-256 `9c408f9371a230d96f5715e12541df3c509300a56434c9ed53718809f1cfa0c7`
+- `ml/skill-intelligence/collection/export.py`: 40 lines; SHA-256 `64439b3263470879774467910376f776410d5909a336e5d508ebb9cb94b128a6`
+- `ml/skill-intelligence/collection/http.py`: 54 lines; SHA-256 `15e78bc78a9d54cb4f43170d5bc13e76688b1cae6df9dc3170b0d02b8166ffff`
+- `ml/skill-intelligence/collection/models.py`: 63 lines; SHA-256 `e0ce451bd0722a3a1cc014dd2972c5219633285c36fbc75c9b21e6c784dd2d24`
+- `ml/skill-intelligence/collection/normalize.py`: 40 lines; SHA-256 `deb81b8ebe15618ec51efa46ba4c0bfdd231813be4651f8e3bc58949134d1553`
+- `ml/skill-intelligence/collection/registry.json`: 47 lines; SHA-256 `2348b2f3b6929a4bab126ad3634c6d8f24a02a303aab20b9088423bc80991cfc`
+- `ml/skill-intelligence/collection/sources/__init__.py`: 5 lines; SHA-256 `026253e22fb2e130c27bc548eebe47c71fe56406ea5781869bb35c3058be3b10`
+- `ml/skill-intelligence/collection/sources/ashby.py`: 37 lines; SHA-256 `791ab2995815706fe254273eead1bd66c7e85e4d2cc1f309df324d785622c36f`
+- `ml/skill-intelligence/collection/sources/common.py`: 34 lines; SHA-256 `7e44c71d220d46b899e041965f33c81672796791c4968e3f25243ed086bd32b8`
+- `ml/skill-intelligence/collection/sources/greenhouse.py`: 34 lines; SHA-256 `d2041fe2fee06ee7eed2b75a933596141afcc8a92b0473c37e196f36221327a7`
+- `ml/skill-intelligence/collection/sources/lever.py`: 47 lines; SHA-256 `003b27161b1442a29af636250efdf179a10bbfee680f4703c1f8d5e9083d3449`
+- `ml/skill-intelligence/collection/tests/test_collection.py`: 115 lines; SHA-256 `232b05c0fc6a5c0f27b44f58edb3857989e7cd5057937b17ac5cf3e118740fce`
+- `ml/skill-intelligence/collection/validate.py`: 84 lines; SHA-256 `0544cf8d368531696d6c11d1f24c51213b85bd1864bad9dec31f31d4e6791af5`
+- `ml/skill-intelligence/config/future_skills.json`: 21 lines; SHA-256 `72e8a3bf523937e8b71f1ff757075935ec1ae95c045aad0bc39fbce8766008a3`
+- `ml/skill-intelligence/config/training.json`: 23 lines; SHA-256 `d6767a942c81a141f36efba85fc312ea17d01096ec876c56fc3703e4b5e66b89`
+- `ml/skill-intelligence/future_skills/__init__.py`: 1 lines; SHA-256 `bdb2a174ecfe172525da7d1ff566d0cdfd7c7fb711f7bf1cf7ba4da030fbfeb0`
+- `ml/skill-intelligence/future_skills/_bootstrap.py`: 8 lines; SHA-256 `8b192bdfd36e921be1ff624ace9dc4a0928d3e0cfab081c52952918442647cee`
+- `ml/skill-intelligence/future_skills/annotate.py`: 189 lines; SHA-256 `a647dced112b4b0fea090740bce6b6ae145673bf7a115fc3c2840e1d7c9a0844`
+- `ml/skill-intelligence/future_skills/annotation.py`: 514 lines; SHA-256 `5e7013aa4a62da08c3239576a3aedb1990a787e22a5d6456cf107dfce7624030`
+- `ml/skill-intelligence/future_skills/data.py`: 89 lines; SHA-256 `94300e0f43290f11db25e2a61e7cf595842b74040d28f8a9e9c00c0b8bba6ac1`
+- `ml/skill-intelligence/future_skills/inference.py`: 36 lines; SHA-256 `e59a8198cadeff6eccb4f21e173a2c85ae276654d12dc4bacc5df758a7e707af`
+- `ml/skill-intelligence/future_skills/prepare.py`: 33 lines; SHA-256 `57cafc29ab511ab7df21cb8f66c51871bcbdaf71c777b5d2f9e15eb75cfdf040`
+- `ml/skill-intelligence/future_skills/schemas.py`: 92 lines; SHA-256 `3e82d08602daff61020675f443f7cacc954fec77ca9f892600186cd71f6105f8`
+- `ml/skill-intelligence/future_skills/tests/test_future_skills.py`: 674 lines; SHA-256 `04cc20fa687a14ca14eb1efe087d17a49853e0af83a33874a9d6000bf36e5a8a`
+- `ml/skill-intelligence/future_skills/validation.py`: 135 lines; SHA-256 `474d901ae377601acca41396eaecccbe26fbbd071514e65aaf05512e1369b847`
+- `ml/skill-intelligence/future_skills/workflow.py`: 144 lines; SHA-256 `92e7a48c0ab49f2ac14356fe9d0e3ce55cdcce311e0e7c65364d089f60655f9d`
+- `ml/skill-intelligence/scripts/_bootstrap.py`: 8 lines; SHA-256 `7bc6c7af63086fc6b28153f3b2167cefbfd9fdf23f6d72eeaac8dec8882ac314`
+- `ml/skill-intelligence/scripts/compare_models.py`: 15 lines; SHA-256 `cd4a523ab4fbbca410e14c64c66142ce75fb1b7affc198dd99e80285b79afd16`
+- `ml/skill-intelligence/scripts/create_splits.py`: 25 lines; SHA-256 `135460765184588f9b0baa634a4911c6f94b9125ddb98fdf5560d5a920afb9df`
+- `ml/skill-intelligence/scripts/evaluate_model.py`: 137 lines; SHA-256 `2542eaa9e4da7c3883c4041cfc6de6632ab66e9df028027c7245841b34f56515`
+- `ml/skill-intelligence/scripts/export_adapter.py`: 61 lines; SHA-256 `978b4e09257a6655ee85e586c4911fa6fede7063ef8744e56b7678f64171f439`
+- `ml/skill-intelligence/scripts/inspect_dataset.py`: 22 lines; SHA-256 `3094f5e16a553c3523ae60fa118bc7a2cd7c02282fa0f1d61547544ee5e0b754`
+- `ml/skill-intelligence/scripts/prepare_dataset.py`: 32 lines; SHA-256 `ffbf1f2859e615370234b79e9642f538088752313d7162ea16f096bb695c1499`
+- `ml/skill-intelligence/scripts/run_baseline.py`: 24 lines; SHA-256 `f1f049f55a1f75a8a05e7793ee4c5bcf641386c68d6b51a67c3e57574fdb80a4`
+- `ml/skill-intelligence/scripts/test_inference.py`: 18 lines; SHA-256 `c71a9213022f3b0504b480e72607f0effffa7a42be2854d471edc7f18abfdfa2`
+- `ml/skill-intelligence/scripts/train_model.py`: 63 lines; SHA-256 `bb0cda9e05c8ea497400fda25ab20f92e6bfe2e0b7d109f110ca45bbac591b9e`
+- `ml/skill-intelligence/scripts/validate_dataset.py`: 29 lines; SHA-256 `135296ec21f0344e4a4998bc68683d2e8dfd98fac445c1c07318018d8b5cad9f`
+- `ml/skill-intelligence/src/__init__.py`: 1 lines; SHA-256 `12310faf68d49c74a9b09a3c6706487b876dbd73501002d7db983f8c2d86db8b`
+- `ml/skill-intelligence/src/contracts.py`: 31 lines; SHA-256 `9cc8858a00ff0c6b71c9f8b58fa67d3f070d6ee46ee1f4b5d57a331d97d0ae5b`
+- `ml/skill-intelligence/src/data.py`: 35 lines; SHA-256 `fd7066a52b8431811f3b6cfccdb38d925f75e38503c086ef59a2572e1e595552`
+- `ml/skill-intelligence/src/evaluation/__init__.py`: 1 lines; SHA-256 `82129f78dcdc9ba63d9c9eee49296d434eb553808683506bf3437f6b7ff64407`
+- `ml/skill-intelligence/src/evaluation/metrics.py`: 43 lines; SHA-256 `96cce90344cfe335c8a568eb385a9c834dca30b3a2bf054d2cc4422fe05dc350`
+- `ml/skill-intelligence/src/inference/__init__.py`: 1 lines; SHA-256 `c6f97a6cb99764cad2c83b00978805db943d7a883f9ce8737c576f77f085c817`
+- `ml/skill-intelligence/src/inference/model_loader.py`: 8 lines; SHA-256 `49f0dcc39c959a4c5331b81e1092fc2cfbea26accc21499299e450cbdd2cee16`
+- `ml/skill-intelligence/src/inference/predict.py`: 7 lines; SHA-256 `10e97a44c3eddc8b9d1b873f9e68c890e47144ed709536581d8aa737255f0612`
+- `ml/skill-intelligence/src/inference/schemas.py`: 15 lines; SHA-256 `3d0693530f247d742d45fdad853dabaf19c43bac43a6814a0a63ca968a7537e0`
+- `ml/skill-intelligence/src/service.py`: 8 lines; SHA-256 `70fd0a39be3d7441ba2d8149024cef87067b27d56159518f312b73253928028d`
+- `ml/skill-intelligence/src/taxonomy.py`: 18 lines; SHA-256 `7ee2fad9dba8097b062cae6b0585b2dd2e615dca9949c965fe1e3e17b21a8819`
+- `ml/skill-intelligence/src/validation.py`: 25 lines; SHA-256 `0870b46af9fb6cdec4844d97d747ed08fb6a7b08f11f80d332e09c78ad845ac8`
+- `ml/skill-intelligence/tests/test_ml_pipeline.py`: 37 lines; SHA-256 `2fad68e758707f8c5872f86ec1955f0b728d69ce5bed1dc9115998bce1e69813`
+- `next.config.mjs`: 23 lines; SHA-256 `c42aa9e7fd46e3671d8044abe33fb7dcc15a4193c4328d9fa1372afb3f958df4`
+- `package.json`: 51 lines; SHA-256 `f7710b725184e3e2886896878d4eb09e096ae824add07e11fa4d96e458a30896`
+- `pnpm-workspace.yaml`: 9 lines; SHA-256 `0c7c1269c966dd5b156d54ca4073945db2a70d83a4f9cc91ae4b601e0bd7b967`
+- `postcss.config.mjs`: 8 lines; SHA-256 `54b5708e687b8c9ecc8dbeebf29801dbec1213f890c5e018d7ca9c1541a6f7e3`
+- `proxy.ts`: 40 lines; SHA-256 `b1e2907f311dcc90fc6215470ea1ef3380fa9d2128022caaa2d3c554fd418c96`
+- `pytest.ini`: 3 lines; SHA-256 `21ed77ecc3022fe3705a3c53bc2a2e0a902b67c21d64a382a5040f11d3793901`
+- `scripts/supabase-rls-storage-audit.mjs`: 215 lines; SHA-256 `4574c6634442c8c32d261c1ec6a7d8449a558b3189abb9d19906e60b525e1ff4`
+- `scripts/verify-db-connection.mjs`: 19 lines; SHA-256 `0f0f998d3ccd9730cfaa3c5509c8836a324de6d6896815458022833f1a174f66`
+- `supabase/phase1-audit.sql`: 37 lines; SHA-256 `aaf0b1b45528088a0cbc0bfca47b45ddf7e48c10b8c597df73c77a82eba3e021`
+- `supabase/phase2-functional-remediation.sql`: 6 lines; SHA-256 `1bc7e3abf547b6c7b0e64e603b54b8890789e45340bb731e7370c6ae797c67a8`
+- `tests/auth.test.ts`: 34 lines; SHA-256 `b82c7d348c5add89840b988fe6ed95818f5a2ea06924a99c3a5c2471c8a9eef4`
+- `tests/date-format.test.ts`: 23 lines; SHA-256 `0d40bcc8178653e4d2d4ded15d897f1298a0fd248d6152ade2059828ae0e9c02`
+- `tests/forecast.test.ts`: 38 lines; SHA-256 `3dd1688b3feb472c4c99e50db3adc9c16917b3dedabd8db5b6ff4740f2cb6446`
+- `tests/research.test.ts`: 28 lines; SHA-256 `225d290c099b65bb47887060d97989ea9855543539dc9fa976ca5d77058cb829`
+- `tests/security.test.ts`: 149 lines; SHA-256 `ff98c56bf9f3e1dcac14e20b72363e9751ce8010f975951dec40624b4ef10b02`
+- `tsconfig.json`: 33 lines; SHA-256 `f2fc3309a966ecb35a51a17b2b7ab03c92d88b7c663ddbed5cb626f597c83277`
+- `ml/skill-intelligence/future_skills/train.py`: 343 lines; SHA-256 `b68b2c037ea17f5c2b860d4e5cabd8399e0e0c0796dde5a189ff513ac91022e7`
+- `ml/skill-intelligence/src/training/__init__.py`: 1 lines; SHA-256 `d61e4e32491a7134e51397a2cc4768fd76aa4f07518e9a2e538d08fd4191d4c3`
+- `ml/skill-intelligence/src/training/callbacks.py`: 15 lines; SHA-256 `2cb07b4cb1363edfd8e7441945eb6458bb04f69fd2e4c8637d6806278d3a3f78`
+- `ml/skill-intelligence/src/training/config.py`: 10 lines; SHA-256 `ff3c37aad1fccffcf9fd23fd9952e3abee353646f1d2c9e222f0eda2e7280539`
+- `ml/skill-intelligence/src/training/hardware.py`: 98 lines; SHA-256 `fb85a7027e89845a5dc0a8a722660345c4063d53bd2cf43e8ea343be9d4b8f2e`
+- `ml/skill-intelligence/src/training/train.py`: 443 lines; SHA-256 `60fe9a18de3a2a685ccb141db23a56dab3017d9b11301b6b77507c94d322d5d5`
+
+## Exclusions
+
+- `.env.example` — Environment-variable template; excluded to avoid environment details and because it is not executable source.
+- `AGENTS.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `Copyright_Submission_Format copy.doc` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `IMPLEMENTATION_AUDIT.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `README.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `copyright_submission/content/build_package.py` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `copyright_submission/source_code_snippets/01_resume_validation.ts` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `copyright_submission/source_code_snippets/02_resume_text_extraction.ts` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `copyright_submission/source_code_snippets/03_alias_taxonomy_and_normalization.ts` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `copyright_submission/source_code_snippets/04_requirement_extraction.ts` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `copyright_submission/source_code_snippets/05_evidence_classification.ts` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `copyright_submission/source_code_snippets/06_weighted_score_and_counterfactual.ts` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `copyright_submission/source_code_snippets/07_proficiency_estimate.ts` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `copyright_submission/source_code_snippets/08_hypothetical_recommendation.ts` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `copyright_submission/source_code_snippets/09_upload_ownership_and_storage.ts` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `copyright_submission/source_code_snippets/10_analysis_transaction.ts` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `copyright_submission/source_code_snippets/11_research_transformations.ts` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `copyright_submission/source_code_snippets/12_forecast_readiness_gate.ts` — Documentation-package generator or excerpt, not ResumeIntel application source.
+- `data/job-postings/normalized/jobs.csv` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `data/job-postings/normalized/jobs.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `data/job-postings/raw/ashby-linear-20261111T070815Z-bfb413e5.json` — Collected or generated data/report, not source code.
+- `data/job-postings/raw/ashby-openai-20261111T070815Z-bfb413e5.json` — Collected or generated data/report, not source code.
+- `data/job-postings/raw/greenhouse-airbnb-20261111T070815Z-bfb413e5.json` — Collected or generated data/report, not source code.
+- `data/job-postings/raw/greenhouse-anthropic-20261111T070815Z-bfb413e5.json` — Collected or generated data/report, not source code.
+- `data/job-postings/raw/greenhouse-stripe-20261111T070815Z-bfb413e5.json` — Collected or generated data/report, not source code.
+- `data/job-postings/reports/collection_checkpoint.json` — Collected or generated data/report, not source code.
+- `data/job-postings/reports/collection_quality.json` — Collected or generated data/report, not source code.
+- `docs/forecasting-integration.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `docs/future-skills-architecture.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `docs/llm-finetuning-implementation-plan.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `docs/phase-2b-eda-report.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `docs/qwen3-finetuning-guide.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `forecasting/README.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `forecasting/data/.gitkeep` — Collected or generated data/report, not source code.
+- `forecasting/data/exports/.gitkeep` — Collected or generated data/report, not source code.
+- `forecasting/data/exports/phase-2b-eda.json` — Collected or generated data/report, not source code.
+- `forecasting/data/normalized/.gitkeep` — Collected or generated data/report, not source code.
+- `forecasting/data/processed/.gitkeep` — Collected or generated data/report, not source code.
+- `forecasting/data/raw/.gitkeep` — Collected or generated data/report, not source code.
+- `forecasting/docs/role-mapping.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `forecasting/docs/source-registry.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/README.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/collection/README.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/README.md` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/annotation_report.json` — Collected or generated data/report, not source code.
+- `ml/skill-intelligence/future_skills/data/annotation_report.json.before-2026-11-12.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/annotation_report.refreshed.json` — Collected or generated data/report, not source code.
+- `ml/skill-intelligence/future_skills/data/dataset_report.json` — Collected or generated data/report, not source code.
+- `ml/skill-intelligence/future_skills/data/gold.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/test.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/test_annotations.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/test_reviews.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_annotations.csv` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_annotations.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_reviews.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_reviews.jsonl.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_reviews.jsonl.before-ai-safety-review.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_reviews.jsonl.before-anthropic-review.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_reviews.jsonl.before-discovery-review.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_reviews.jsonl.before-taxonomy-expansion.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_sft.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_sft.jsonl.before-ai-safety-review.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_sft.jsonl.before-anthropic-review.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_sft.jsonl.before-discovery-review.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/train_sft.jsonl.before-taxonomy-expansion.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/validation.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/validation_ai_pre_review_report.json` — Collected or generated data/report, not source code.
+- `ml/skill-intelligence/future_skills/data/validation_ai_pre_review_report.json.before-report-refresh.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/validation_ai_sft.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/validation_ai_sft.jsonl.before-export.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/validation_annotations.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/validation_annotations.jsonl.before-ai-assisted-review.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/validation_annotations.jsonl.before-human-review.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/validation_sft.jsonl` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/future_skills/data/validation_sft.jsonl.before-export.bak` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `ml/skill-intelligence/requirements.txt` — Third-party dependency list, not source code.
+- `next-env.d.ts` — Generated Next.js environment declaration.
+- `pnpm-lock.yaml` — Dependency lock file.
+- `public/apple-icon.png` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `public/icon-dark-32x32.png` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `public/icon-light-32x32.png` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `public/icon.svg` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `public/placeholder-logo.png` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `public/placeholder-logo.svg` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `public/placeholder-user.jpg` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `public/placeholder.jpg` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `public/placeholder.svg` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `public/resumeintel-workflow.gif` — Documentation, generated/vector/raster asset, data, or backup; not executable source.
+- `requirements.txt` — Third-party dependency list, not source code.
+
+The compilation excludes dependency directories, generated build output, data and annotation records, static media, documentation, lock files, environment templates, and the prior copyright-documentation generator. No application source was rewritten or truncated. Long physical source lines are soft-wrapped across continuation rows while retaining original line numbers; joining those wrapped segments reconstructs the original line.

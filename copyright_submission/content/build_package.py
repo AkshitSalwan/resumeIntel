@@ -79,7 +79,7 @@ def svg_diagram(title,nodes,edges,banner=None):
         chunks.append(f'<text x="{x+16}" y="{y+38}" font-family="Arial" font-size="19" font-weight="700" fill="#172033">{html.escape(label)}</text>')
         parts=textwrap.wrap(detail,34)
         for j,line in enumerate(parts[:3]): chunks.append(f'<text x="{x+16}" y="{y+67+j*22}" font-family="Arial" font-size="15" fill="#4d5870">{html.escape(line)}</text>')
-    chunks.append('<text x="50" y="625" font-family="Arial" font-size="13" fill="#68738b">ResumeIntel source-derived diagram • arrow direction shows data or control flow</text></svg>')
+    chunks.append('<text x="50" y="760" font-family="Arial" font-size="13" fill="#68738b">ResumeIntel source-derived diagram • arrow direction shows data or control flow</text></svg>')
     return ''.join(chunks)
 for name, spec in diagrams.items():
     title,nodes,edges,*banner=spec

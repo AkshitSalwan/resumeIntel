@@ -1,0 +1,1033 @@
+
+
+===== 01_Project_Abstract.pdf =====
+ABSTRACT
+ResumeIntel: An Explainable Resume Intelligence and Skill Gap Analysis Software System
+Intended users. People reviewing a resume against a target job description, including resume
+owners and advisors. The repository does not establish an employer deployment.
+1.1 Problem Background
+Resume screening often reduces a resume and a job description to keyword overlap or an opaque score. That can hide whether a
+requirement has contextual work evidence, appears only in a skills list, is absent, or cannot be mapped reliably. Noisy extraction can
+further complicate review. Reviewers need traceable evidence and uncertainty when comparing stated experience with role
+requirements. ResumeIntel addresses this decision-support problem without claiming that textual matches establish competence,
+predict hiring, or reproduce an employer’s applicant tracking system.
+1.2 Objective of the Project
+The objective is to implement a secure, inspectable workflow that extracts resume text, identifies job requirements, links assessments
+to source evidence, and summarizes evidence coverage. Reproducible research tools also examine controlled text changes and
+compare results with a keyword baseline.
+1.3 Proposed Solution / System Overview
+ResumeIntel is a web application centered on a deterministic requirement-analysis engine. An authenticated user uploads a PDF or
+DOCX; file checks validate type, size, and signature. The user supplies a job description, normalized and parsed into recognized
+taxonomy and unresolved bullet requirements. Aliases locate resume evidence and section context. Each requirement receives a
+matched, partial, missing, or uncertain state, explanation, and weighted contribution. The application persists a structured report. A
+workspace runs baseline, counterfactual, and transformation experiments. Outputs describe evidence coverage; they do not establish
+candidate ability or employment outcomes.
+1.4 Key Features or Functionality
+The report links requirement states to resume excerpts and locations, distinguishes contextual support from skills-list mentions, and
+preserves unresolved requirements as uncertain. Required and preferred items receive different weights in a coverage score.
+Proficiency estimates cite supporting contexts and state uncertainty. A counterfactual score shows the arithmetic effect of changing
+one assessment state. Authenticated history and runs support repeatable review.
+1.5 Technology / Method Used
+The application uses Next.js, React, TypeScript, Supabase Auth, storage, and PostgreSQL with RLS. PDF.js and Mammoth extract
+PDF and DOCX text. An alias taxonomy, deterministic normalization, evidence rules, and weighted arithmetic implement analysis.
+Vitest and ESLint verify code.
+1.6 Expected Outcome & Benefits
+The outcome is a comparison that helps reviewers inspect requirements with support, where it occurs, and items remaining uncertain.
+Evidence excerpts and weights make the score auditable. Transformations support research into wording and formatting sensitivity.
+The tool cannot verify actual skill, infer protected characteristics, guarantee fairness, or replace judgment. Job-market modules
+remain experimental; no validated forecast or model is claimed.
+1.7 Original Contribution Statement
+ResumeIntel integrates requirement-level evidence, explicit uncertainty, transparent weighted coverage, and bounded counterfactual
+explanations in an authenticated workflow with traceable evidence.
+Verified abstract length: 420 words including numbered section headings; section-body counts are listed in verification/abstract_word_count.txt.
+ResumeIntel supporting documents • 1
+
+
+===== 02_Technical_Documentation.pdf =====
+COMPLETE COPYRIGHT DOCUMENTATION
+Technical description, architecture, methodology, verification and limitations
+1. Project background
+ResumeIntel is an authenticated web application for evidence-grounded comparison of resume text with a target job description. It is positioned as decision support and reproducible research, not as an
+employer ATS, hiring predictor, or verified skills assessment.
+2. Problem statement and objectives
+Keyword overlap can obscure context: a term listed without work evidence, a requirement not found, or a requirement outside the supported taxonomy can all be treated as equivalent by simpler
+systems. ResumeIntel’s objective is to make these distinctions inspectable, provide a transparent weighted coverage calculation, and persist the resulting report for review.
+3. System description and functional modules
+Module Implemented behavior Status
+Authentication and workspace Supabase server session; protected dashboard and history Resume intake PDF/DOCX validation, extraction, private storage, database metadata Requirement analysis Alias taxonomy, requirement parsing, evidence states, score, explanations Proficiency estimate Heuristic estimates from resume sections and evidence count Research workspace Keyword baseline, simple transformations, counterfactual arithmetic, persisted runs Forecast / future skills Separate collection, data curation, annotation, training code; UI returns unavailable Implemented
+Implemented
+Implemented; deterministic rules
+Implemented; uncalibrated
+Implemented; experiment validity limited
+Experimental / not integrated
+4. Architecture and request flow
+The browser dashboard calls authenticated Next.js API routes. The server obtains identity from Supabase Auth, validates and extracts uploaded documents, stores resume objects in a private bucket with
+a user-prefixed path, and writes metadata to PostgreSQL. Analysis requests verify that the resume belongs to the authenticated owner, run the local deterministic TypeScript analyzer, and persist JSON
+results transactionally. Row Level Security policies scope rows to auth.uid(); the PostgreSQL client enforces TLS certificate verification.
+Figure 1. Source-derived overall architecture. Editable Mermaid and SVG files are in diagrams.
+Implemented system architecture
+Browser UI
+Next.js / React
+Auth
+Supabase SSR session
+API routes
+Next.js server routes
+Analysis engine
+Deterministic TypeScript
+PostgreSQL
+RLS scoped records
+Private storage
+Owner-prefixed resumes
+Research workspace
+Baseline / experiments
+Forecast modules
+Experimental / unavailable
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+Figure 2. Resume upload and extraction checks.
+ResumeIntel supporting documents • 1
+Resume upload and extraction workflow
+User session
+Verified user identity
+Upload API
+PDF or DOCX; <=10 MB
+Validation
+MIME + file signature
+Extraction
+PDF.js / Mammoth
+Text check
+Normalize; minimum readable length
+Private storage
+Owner path + database row
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+5. Methodology and evidence-based assessment
+Job description text is normalized with NFKC and whitespace rules. The parser scans lines for a small explicit alias taxonomy. Recognized terms become requirements; multiword bullet requirements
+with no supported alias receive stable unmapped IDs and remain uncertain. Resume text is examined by section-aware lines using complete-term boundaries. No match yields missing; terms in a skills
+list or very short excerpt yield partial; contextual occurrences yield matched. Unmapped requirements remain uncertain because the system has no supported skill mapping.
+Figure 3. Requirement extraction and evidence classification.
+ResumeIntel supporting documents • 2
+Requirement extraction and evidence workflow
+Job description
+Normalize and split lines
+Taxonomy
+12 canonical IDs + aliases
+Requirement parser
+Recognized terms / unmappe
+bullets
+Resume text
+Section-aware lines
+Evidence matcher
+Complete-term alias search
+Requirement result
+matched / partial / missing /
+uncertain
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+The score is an evidence-coverage index. Required requirements have weight 5; preferred requirements have weight 3. State credits are matched 1.00, partial 0.55, uncertain 0.35, missing 0.00. The
+weighted sum divided by total possible weight is rounded to an integer percentage. It is not an employer score or probability.
+Figure 4. Weighted evidence score and hypothetical counterfactual.
+ResumeIntel supporting documents • 3
+Assessment, scoring, and bounded counterfactual
+Requirement states
+per requirement
+Weights
+required 5 / preferred 3
+State credits
+1 / .55 / .35 / 0
+Coverage score
+weighted evidence index
+What-if
+temporarily treat one state
+matched
+Explanation
+evidence + arithmetic
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+6. Proficiency and counterfactual boundaries
+Proficiency is a deterministic heuristic: no useful context gives NOT_ENOUGH_EVIDENCE; skills-list/basic exposure generally gives FOUNDATIONAL; one detailed contextual implementation
+gives INTERMEDIATE; two distinct detailed contexts can give ADV ANCED. Confidence labels describe evidence strength and are not statistically calibrated. The output explicitly says this does not
+establish competence.
+Counterfactual logic changes one requirement state to matched and recomputes the same score. The recommendation is a hypothetical arithmetic impact; it does not prove the person can obtain the skill
+or advise a training path.
+7. Research and future-skills methodology
+The research module includes a token-overlap baseline and transformations that remove a section, reverse section blocks, or replace selected verbs. These transformations are rudimentary; no claim of
+semantic paraphrase robustness or validated experimental performance is made. Research run outputs and manuscript revisions are persisted separately.
+Figure 5. Implemented research workflow.
+ResumeIntel supporting documents • 4
+Implemented research workspace
+Resume + job text
+research input
+Deterministic analysis
+current analyzer
+Keyword baseline
+token overlap
+Transformations
+remove / reorder / verb
+substitution
+Comparison
+score and qualification-
+preservation fields
+Persistence
+research experiment and run
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+The separate ml/skill-intelligence module includes job collection and normalization, a canonical taxonomy, annotation/export validation, QLoRA training and evaluation scripts for Qwen/Qwen3-4B-
+Instruct-2507, and a forecasting pipeline. The current web UI reports forecasting unavailable. Collected data summary records 500 full descriptions across five companies and two sources; dates are
+missing for 75%, with 125 reliable dates. Training assets include 56 human-reviewed training examples, 29 held-out gold examples, 112 AI-assisted pseudo-labels, and five human-reviewed validation
+examples. The configured readiness minimum is ten validation records, so the gate is not currently ready. No adapter checkpoint or validated forecast is available.
+Figure 6. Separate experimental future-skills pipeline and current readiness boundary.
+ResumeIntel supporting documents • 5
+Separate experimental job-market and fine-tuning work
+Experimental boundary
+Job sources
+Greenhouse / Ashby snapshots
+Normalize + curate
+500 descriptions; temporal
+metadata sparse
+Human-reviewed data
+56 train; 5 validation; 29 gold
+AI-assisted data
+112 pseudo-labels; excluded from
+initial train
+QLoRA training gate
+Qwen 3 4B; currently blocked
+Adapter inference
+No trained adapter exists
+Forecasting service/UI
+Separate pipeline; UI unavailable
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+8. Security and privacy controls
+API identity is obtained from the server-side Supabase session rather than a client-supplied owner ID. Resume upload size and signature are checked, storage is private and user-prefixed, database
+reads/writes include owner constraints, RLS policies are configured, and the PostgreSQL TLS client sets rejectUnauthorized=true. These are code-level controls; a comprehensive external security
+assessment is not claimed.
+Figure 7. Authenticated persistence and access boundaries.
+ResumeIntel supporting documents • 6
+Authenticated persistence and access boundary
+Supabase Auth
+server-verified user
+API route
+owner derived from session
+PostgreSQL
+owner_id + transactions
+RLS
+auth.uid() ownership policies
+Private Storage
+folder prefix = user ID
+Analysis JSON
+saved requirement report
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+9. Technology stack
+Next.js 16.4.4, React 19, TypeScript 5.7.3, Supabase SSR/Auth and Storage, PostgreSQL via pg, PDF.js, Mammoth, Vitest, ESLint, Python/Pydantic/Transformers/PEFT/bitsandbytes in the separate ML
+module. Dependency versions are maintained in package manifests and lockfiles. No repository-wide software license has been selected.
+10. Test and verification evidence
+At documentation preparation, pnpm test passed 49 tests; pnpm lint passed; Python suites covering forecasting and skill-intelligence passed 66 tests. The production build passed with the Webpack
+builder after the default Turbopack attempt was blocked in the local sandbox by a child-process port bind restriction. These test counts describe this verification run, not general correctness guarantees.
+11. Limitations and scope
+• The matching engine uses a narrow fixed alias taxonomy and deterministic rules, not a contextual language model.
+• Evidence extraction can miss synonyms, nuanced negation, document layout, and requirements expressed outside recognized patterns.
+• Score and proficiency labels are heuristics, not calibrated measures, verified skills, hiring outcomes, or fairness guarantees.
+• Research transforms do not establish broad semantic robustness.
+• Future-skill prediction is experimental, not integrated into operational analysis, and not validated for forecast accuracy.
+• No trained adapter is available; AI-assisted labels remain pseudo-labels and must not be treated as ground truth.
+12. Conclusion
+The strongest supported contribution is an implemented workflow that combines requirement-level evidence, explicit uncertainty, transparent weighted coverage, and bounded what-if scoring within
+authenticated, persisted software. The package presents source evidence and limitations so reviewers can evaluate the actual software expression without relying on aspirational claims.
+ResumeIntel supporting documents • 7
+
+
+===== 03_Originality_and_Contribution_Report.pdf =====
+ORIGINALITY AND CONTRIBUTION REPORT
+Evidence-based technical positioning and copyright preparation notes
+1. Copyright positioning
+This report identifies software expression and implementation integration visible in the repository. It is not a legal opinion, ownership
+determination, novelty opinion, or guarantee of registration. Copyright scope and applicant/authorship details should be confirmed
+with the University and qualified counsel.
+The Indian Copyright Office states that computer software/programmes can be registered as software and calls for source and object
+code. Current online instructions describe a PDF of at least the first 10 and last 10 source pages, or all source if under 20 pages, with
+no blocked or redacted portions. Confirm current filing requirements before submission.
+2. Ranked original implementation contributions
+Rank / contribution 1. Evidence-linked
+requirement
+classification
+2. Transparent
+weighted evidence
+coverage
+3. Bounded what-if
+assessment
+4. Evidence-bounded
+proficiency heuristic
+5. Authenticated
+report and research
+persistence
+Technical problem and approach Avoids collapsing contextual use, shallow list mentions, absent terms,
+and unsupported requirements. Uses complete-term aliases, section
+context, four evidence states, source excerpt, explanation, and score
+contribution.
+Makes score arithmetic inspectable through required/preferred weights,
+state credits, and per-item contributions.
+Shows mathematical impact of changing a single requirement state to
+matched.
+Uses sections and distinct contextual examples, returning explanation
+and uncertainty.
+Connects analysis to owner-scoped resume, transactionally stores
+JSON, and keeps reproducible research history.
+6. Separate job-market
+intelligence extension
+Collects/normalizes postings and experiments with human-reviewed
+and AI-assisted labels, model training, and forecasting.
+Evidence and status
+lib/analysis.ts: extractRequirements, classifyEvidence,
+analyzeResume. Implemented deterministic rules;
+narrow taxonomy.
+lib/analysis.ts: SCORE_WEIGHTS,
+calculateScoreBreakdown. Implemented; not predictive
+or employer ATS score.
+lib/analysis.ts: getCounterfactualScore,
+getRecommendations. Implemented as hypothetical
+only.
+lib/analysis.ts: estimateSkillProficiencies. Implemented,
+uncalibrated, not skill verification.
+app/api/analyses/route.ts, app/api/resumes/route.ts,
+supabase/schema.sql. Implemented; security review is
+not exhaustive.
+ml/skill-intelligence and forecasting modules.
+Experimental, not integrated, validation gate blocked,
+no trained adapter or validated forecast.
+3. Limits of originality claims
+The general idea of resume-to-job matching, weighted arithmetic, text normalization, model fine-tuning, and forecasting is not
+claimed as exclusive. Third-party libraries, pretrained Qwen model weights, taxonomies, source-platform data, and external datasets
+are not claimed as owned by ResumeIntel. The repository currently has no selected software license; dependency notices and dataset
+rights require separate review.
+The claimed contribution is the authored source-code expression and its particular integration, user interface, data schemas, rule
+configuration, and workflows as evidenced in this repository. Do not assert “first”, “unique in the market”, or validated superiority
+without comparative research.
+4. Authorship and ownership facts to complete
+• Identify all authors/contributors and their contribution periods from version-control and institutional records.
+• Confirm whether applicant is the student, institution, or another rights holder; obtain mentor/institution guidance and any
+required consent/NOC.
+• Review third-party dependency licenses and model/data terms before distribution or filing.
+• Prepare the source-code PDF and object-code deliverable according to current portal instructions; do not redact portions
+where the portal prohibits redaction.
+• Share portal credentials only through a separate institution-approved secure method; never add them to this package.
+5. Official references
+Government of India Copyright Office FAQ: https://copyright.gov.in/frmFAQ.aspx
+Copyright Rules, 2013, Chapter XIII, Rule 70(5): https://copyright.gov.in/Copyright_Rules_2013/chapter_xiii.html
+Copyright Office online filing instructions: https://copyright.gov.in/UserRegistration/BOLoginPage.aspx
+Web pages checked 13 November 2026. Requirements can change; verify at filing time.
+ResumeIntel supporting documents • 1
+
+
+===== 04_System_Architecture_and_Workflows.pdf =====
+System Architecture and Workflow Report
+ResumeIntel | Computer Software | Prepared 2026-11-14
+This report depicts behavior found in the inspected repository, not a proposed or planned design.
+Overall architecture
+The browser UI uses Supabase SSR authentication and Next.js API routes. The server calls a
+deterministic TypeScript analyzer and persists owner-scoped results and private resume objects.
+Research endpoints use the same authenticated application. Forecasting endpoints return unavailable
+when readiness data is insufficient.
+Implemented system architecture
+Browser UI
+Next.js / React
+Auth
+Supabase SSR session
+API routes
+Next.js server routes
+Analysis engine
+Deterministic TypeScript
+PostgreSQL
+RLS scoped records
+Private storage
+Owner-prefixed resumes
+Research workspace
+Baseline / experiments
+Forecast modules
+Experimental / unavailable
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+ResumeIntel supporting documents • 1
+Resume upload and processing
+The upload API validates PDF/DOCX MIME type, size and file signature, extracts text with PDF.js or
+Mammoth, rejects insufficient readable text, then stores the resume in private Supabase Storage and
+records metadata.
+Resume upload and extraction workflow
+User session
+Verified user identity
+Upload API
+PDF or DOCX; <=10 MB
+Validation
+MIME + file signature
+Extraction
+PDF.js / Mammoth
+Text check
+Normalize; minimum readable length
+Private storage
+Owner path + database row
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+ResumeIntel supporting documents • 2
+Job-description requirement matching
+Job text is normalized and scanned against a small explicit alias taxonomy. Unsupported bullet
+requirements are retained as unmapped/uncertain. Resume text is searched with complete-term
+boundaries and section context.
+Requirement extraction and evidence workflow
+Job description
+Normalize and split lines
+Taxonomy
+12 canonical IDs + aliases
+Requirement parser
+Recognized terms / unmapped
+bullets
+Resume text
+Section-aware lines
+Evidence matcher
+Complete-term alias search
+Requirement result
+matched / partial / missing /
+uncertain
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+ResumeIntel supporting documents • 3
+Skill-gap analysis and explanation
+Requirements receive matched, partial, missing or uncertain states. Required and preferred weights
+and fixed state credits produce an evidence-coverage score and per-requirement explanations. The
+what-if score is a bounded arithmetic counterfactual.
+Assessment, scoring, and bounded counterfactual
+Requirement states
+per requirement
+Weights
+required 5 / preferred 3
+State credits
+1 / .55 / .35 / 0
+Coverage score
+weighted evidence index
+What-if
+temporarily treat one state
+matched
+Explanation
+evidence + arithmetic
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+ResumeIntel supporting documents • 4
+Authentication and database flow
+Server-side Supabase session identity determines ownership. PostgreSQL records use owner
+constraints and Row Level Security. Resume objects use a private bucket and owner-prefixed paths;
+the PostgreSQL client enforces certificate verification.
+Authenticated persistence and access boundary
+Supabase Auth
+server-verified user
+API route
+owner derived from session
+PostgreSQL
+owner
+id + transactions
+_
+RLS
+auth.uid() ownership policies
+Private Storage
+folder prefix = user ID
+Analysis JSON
+saved requirement report
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+ResumeIntel supporting documents • 5
+
+
+===== 05_Repository_and_Development_Evidence.pdf =====
+Repository and Development Evidence
+Report
+ResumeIntel | Computer Software | Prepared 2026-11-14
+Repository: https://github.com/AkshitSalwan/resumeIntel
+Inspected revision: 94e7340f6af0a6cb78463b211970f5380d1ca67a. Git history is included only as
+repository-state evidence; commit timestamps do not establish creation date or first publication.
+Project structure and implementation evidence
+app/ — Next.js App Router pages, authenticated API routes, forecast availability routes
+components/ — Authentication, research workspace and forecast-unavailable UI
+lib/ — Deterministic analysis, resume extraction, auth, database, research and forecast
+readiness
+supabase/ — PostgreSQL schema, RLS policies and reviewed migrations/remediation SQL
+tests/ — Vitest analysis, auth, date, forecast, research and security suites
+forecasting/ — Isolated historical job-posting data pipeline, descriptive analytics and
+experimental time-series evaluation
+ml/skill-intelligence/future_skills/ — Separate experimental annotation, export, training
+and inference pipeline; not integrated into the primary resume analyzer
+Verified technology
+Next.js 16.4.4 App Router, React 19, TypeScript 5.7.3, Supabase SSR/Auth/Storage, PostgreSQL via
+pg, PDF.js, Mammoth, Vitest and Python modules for separate forecasting/data work. Version
+references come from package manifests and source configuration.
+Test execution for this package preparation
+pnpm test: 49 passed across 6 files.
+.venv/bin/python -m pytest forecasting/tests ml/skill-
+intelligence/future_skills/tests: 53 passed.
+These are test results from this preparation session, not guarantees of correctness. Lint, build and
+external security review were not rerun for this package.
+Git history excerpt
+94e7340 Add ResumeIntel research and copyright submission work
+c06ca29 Document ResumeIntel research workflow
+ad1e769 Prepare ResumeIntel for deployment
+ResumeIntel supporting documents • 1
+0fde95d Add Supabase authentication UI
+9643c90 first commit
+Implementation boundary and limitations
+The primary application performs deterministic, taxonomy-alias-based matching and weighted
+evidence coverage; it is not an LLM-based evaluator.
+Proficiency labels and confidence terms are heuristic evidence descriptions, not calibrated
+probabilities or verified ability.
+Forecasting and QLoRA/future-skills code are separate experimental work. Forecasting is
+gated/unavailable in the UI; no trained adapter or validated forecast is represented as available.
+The repository has no selected software license. Third-party dependencies, pretrained model
+terms, and data rights need separate review.
+Evidence limits
+Repository files and test output support the technical statements above. This report does not determine
+authorship, ownership, originality as a legal conclusion, first-publication date, or registration eligibility.
+Confirm applicant and contributor facts using institutional records.
+ResumeIntel supporting documents • 2
+
+
+===== ResumeIntel_Supporting_Documents.pdf =====
+ResumeIntel Supporting Documents
+ResumeIntel | Computer Software | Prepared 2026-11-14
+ABSTRACT
+ResumeIntel: An Explainable Resume Intelligence and Skill Gap Analysis Software System
+Intended users. People reviewing a resume against a target job description, including resume owners
+and advisors. The repository does not establish an employer deployment.
+1.1 Problem Background
+Resume screening often reduces a resume and a job description to keyword overlap or an opaque
+score. That can hide whether a requirement has contextual work evidence, appears only in a skills list,
+is absent, or cannot be mapped reliably. Noisy extraction can further complicate review. Reviewers
+need traceable evidence and uncertainty when comparing stated experience with role requirements.
+ResumeIntel addresses this decision-support problem without claiming that textual matches establish
+competence, predict hiring, or reproduce an employer’s applicant tracking system.
+1.2 Objective of the Project
+The objective is to implement a secure, inspectable workflow that extracts resume text, identifies job
+requirements, links assessments to source evidence, and summarizes evidence coverage.
+Reproducible research tools also examine controlled text changes and compare results with a keyword
+baseline.
+1.3 Proposed Solution / System Overview
+ResumeIntel is a web application centered on a deterministic requirement-analysis engine. An
+authenticated user uploads a PDF or DOCX; file checks validate type, size, and signature. The user
+supplies a job description, normalized and parsed into recognized taxonomy and unresolved bullet
+requirements. Aliases locate resume evidence and section context. Each requirement receives a
+matched, partial, missing, or uncertain state, explanation, and weighted contribution. The application
+persists a structured report. A workspace runs baseline, counterfactual, and transformation
+experiments. Outputs describe evidence coverage; they do not establish candidate ability or
+employment outcomes.
+1.4 Key Features or Functionality
+The report links requirement states to resume excerpts and locations, distinguishes contextual support
+from skills-list mentions, and preserves unresolved requirements as uncertain. Required and preferred
+items receive different weights in a coverage score. Proficiency estimates cite supporting contexts and
+state uncertainty. A counterfactual score shows the arithmetic effect of changing one assessment state.
+Authenticated history and runs support repeatable review.
+1.5 Technology / Method Used
+ResumeIntel supporting documents • 1
+The application uses Next.js, React, TypeScript, Supabase Auth, storage, and PostgreSQL with RLS.
+PDF.js and Mammoth extract PDF and DOCX text. An alias taxonomy, deterministic normalization,
+evidence rules, and weighted arithmetic implement analysis. Vitest and ESLint verify code.
+1.6 Expected Outcome & Benefits
+The outcome is a comparison that helps reviewers inspect requirements with support, where it occurs,
+and items remaining uncertain. Evidence excerpts and weights make the score auditable.
+Transformations support research into wording and formatting sensitivity. The tool cannot verify actual
+skill, infer protected characteristics, guarantee fairness, or replace judgment. Job-market modules
+remain experimental; no validated forecast or model is claimed.
+1.7 Original Contribution Statement
+ResumeIntel integrates requirement-level evidence, explicit uncertainty, transparent weighted coverage,
+and bounded counterfactual explanations in an authenticated workflow with traceable evidence.
+Verified abstract length: 420 words including numbered section headings; section-body counts are
+listed in verification/abstract_word_count.txt.
+ResumeIntel supporting documents • 2
+COMPLETE COPYRIGHT DOCUMENTATION
+Technical description, architecture, methodology, verification and limitations
+1. Project background
+ResumeIntel is an authenticated web application for evidence-grounded comparison of resume text
+with a target job description. It is positioned as decision support and reproducible research, not as an
+employer ATS, hiring predictor, or verified skills assessment.
+2. Problem statement and objectives
+Keyword overlap can obscure context: a term listed without work evidence, a requirement not found, or
+a requirement outside the supported taxonomy can all be treated as equivalent by simpler systems.
+ResumeIntel’s objective is to make these distinctions inspectable, provide a transparent weighted
+coverage calculation, and persist the resulting report for review.
+3. System description and functional modules
+Module Implemented behavior Status
+Authentication and
+workspace
+Supabase server session; protected dashboard
+and history
+Implemented
+Resume intake PDF/DOCX validation, extraction, private
+storage, database metadata
+Implemented
+Requirement analysis Alias taxonomy, requirement parsing, evidence
+states, score, explanations
+Implemented;
+deterministic rules
+Proficiency estimate Heuristic estimates from resume sections and
+evidence count
+Implemented;
+uncalibrated
+Research workspace Keyword baseline, simple transformations,
+counterfactual arithmetic, persisted runs
+Implemented; experiment
+validity limited
+Forecast / future skills Separate collection, data curation, annotation,
+training code; UI returns unavailable
+Experimental / not
+integrated
+4. Architecture and request flow
+ResumeIntel supporting documents • 3
+The browser dashboard calls authenticated Next.js API routes. The server obtains identity from
+Supabase Auth, validates and extracts uploaded documents, stores resume objects in a private bucket
+with a user-prefixed path, and writes metadata to PostgreSQL. Analysis requests verify that the resume
+belongs to the authenticated owner, run the local deterministic TypeScript analyzer, and persist JSON
+results transactionally. Row Level Security policies scope rows to auth.uid(); the PostgreSQL client
+enforces TLS certificate verification.
+Figure 1. Source-derived overall architecture. Editable Mermaid and SVG files are in diagrams.
+Implemented system architecture
+Browser UI
+Next.js / React
+Auth
+Supabase SSR session
+API routes
+Next.js server routes
+Analysis engine
+Deterministic TypeScript
+PostgreSQL
+RLS scoped records
+Private storage
+Owner-prefixed resumes
+Research workspace
+Baseline / experiments
+Forecast modules
+Experimental / unavailable
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+Figure 2. Resume upload and extraction checks.
+ResumeIntel supporting documents • 4
+Resume upload and extraction workflow
+User session
+Verified user identity
+Upload API
+PDF or DOCX; <=10 MB
+Validation
+MIME + file signature
+Extraction
+PDF.js / Mammoth
+Text check
+Normalize; minimum readable length
+Private storage
+Owner path + database row
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+5. Methodology and evidence-based assessment
+Job description text is normalized with NFKC and whitespace rules. The parser scans lines for a small
+explicit alias taxonomy. Recognized terms become requirements; multiword bullet requirements with no
+supported alias receive stable unmapped IDs and remain uncertain. Resume text is examined by
+section-aware lines using complete-term boundaries. No match yields missing; terms in a skills list or
+very short excerpt yield partial; contextual occurrences yield matched. Unmapped requirements remain
+uncertain because the system has no supported skill mapping.
+Figure 3. Requirement extraction and evidence classification.
+ResumeIntel supporting documents • 5
+Requirement extraction and evidence workflow
+Job description
+Normalize and split lines
+Taxonomy
+12 canonical IDs + aliases
+Requirement parser
+Recognized terms / unmapped
+bullets
+Resume text
+Section-aware lines
+Evidence matcher
+Complete-term alias search
+Requirement result
+matched / partial / missing /
+uncertain
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+The score is an evidence-coverage index. Required requirements have weight 5; preferred
+requirements have weight 3. State credits are matched 1.00, partial 0.55, uncertain 0.35, missing 0.00.
+The weighted sum divided by total possible weight is rounded to an integer percentage. It is not an
+employer score or probability.
+Figure 4. Weighted evidence score and hypothetical counterfactual.
+ResumeIntel supporting documents • 6
+Assessment, scoring, and bounded counterfactual
+Requirement states
+per requirement
+Weights
+required 5 / preferred 3
+State credits
+1 / .55 / .35 / 0
+Coverage score
+weighted evidence index
+What-if
+temporarily treat one state
+matched
+Explanation
+evidence + arithmetic
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+6. Proficiency and counterfactual boundaries
+Proficiency is a deterministic heuristic: no useful context gives NOT_ENOUGH_EVIDENCE; skills-
+list/basic exposure generally gives FOUNDATIONAL; one detailed contextual implementation gives
+INTERMEDIATE; two distinct detailed contexts can give ADVANCED. Confidence labels describe
+evidence strength and are not statistically calibrated. The output explicitly says this does not establish
+competence.
+Counterfactual logic changes one requirement state to matched and recomputes the same score. The
+recommendation is a hypothetical arithmetic impact; it does not prove the person can obtain the skill or
+advise a training path.
+7. Research and future-skills methodology
+The research module includes a token-overlap baseline and transformations that remove a section,
+reverse section blocks, or replace selected verbs. These transformations are rudimentary; no claim of
+semantic paraphrase robustness or validated experimental performance is made. Research run outputs
+and manuscript revisions are persisted separately.
+Figure 5. Implemented research workflow.
+ResumeIntel supporting documents • 7
+Implemented research workspace
+Resume + job text
+research input
+Deterministic analysis
+current analyzer
+Keyword baseline
+token overlap
+Transformations
+remove / reorder / verb
+substitution
+Comparison
+score and qualification-
+preservation fields
+Persistence
+research experiment and run tables
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+The separate ml/skill-intelligence module includes job collection and normalization, a canonical
+taxonomy, annotation/export validation, QLoRA training and evaluation scripts for Qwen/Qwen3-4B-
+Instruct-2507, and a forecasting pipeline. The current web UI reports forecasting unavailable. Collected
+data summary records 500 full descriptions across five companies and two sources; dates are missing
+for 75%, with 125 reliable dates. Training assets include 56 human-reviewed training examples, 29
+held-out gold examples, 112 AI-assisted pseudo-labels, and five human-reviewed validation examples.
+The configured readiness minimum is ten validation records, so the gate is not currently ready. No
+adapter checkpoint or validated forecast is available.
+Figure 6. Separate experimental future-skills pipeline and current readiness boundary.
+ResumeIntel supporting documents • 8
+Separate experimental job-market and fine-tuning work
+Experimental boundary
+Job sources
+Greenhouse / Ashby snapshots
+Normalize + curate
+500 descriptions; temporal
+metadata sparse
+Human-reviewed data
+56 train; 5 validation; 29 gold
+AI-assisted data
+112 pseudo-labels; excluded from
+initial train
+QLoRA training gate
+Qwen 3 4B; currently blocked
+Adapter inference
+No trained adapter exists
+Forecasting service/UI
+Separate pipeline; UI unavailable
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+8. Security and privacy controls
+API identity is obtained from the server-side Supabase session rather than a client-supplied owner ID.
+Resume upload size and signature are checked, storage is private and user-prefixed, database
+reads/writes include owner constraints, RLS policies are configured, and the PostgreSQL TLS client
+sets rejectUnauthorized=true. These are code-level controls; a comprehensive external security
+assessment is not claimed.
+Figure 7. Authenticated persistence and access boundaries.
+ResumeIntel supporting documents • 9
+Authenticated persistence and access boundary
+Supabase Auth
+server-verified user
+API route
+owner derived from session
+PostgreSQL
+owner
+id + transactions
+_
+RLS
+auth.uid() ownership policies
+Private Storage
+folder prefix = user ID
+Analysis JSON
+saved requirement report
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+9. Technology stack
+Next.js 16.4.4, React 19, TypeScript 5.7.3, Supabase SSR/Auth and Storage, PostgreSQL via pg,
+PDF.js, Mammoth, Vitest, ESLint, Python/Pydantic/Transformers/PEFT/bitsandbytes in the separate ML
+module. Dependency versions are maintained in package manifests and lockfiles. No repository-wide
+software license has been selected.
+10. Test and verification evidence
+At documentation preparation, pnpm test passed 49 tests; pnpm lint passed; Python suites covering
+forecasting and skill-intelligence passed 66 tests. The production build passed with the Webpack
+builder after the default Turbopack attempt was blocked in the local sandbox by a child-process port
+bind restriction. These test counts describe this verification run, not general correctness guarantees.
+11. Limitations and scope
+• The matching engine uses a narrow fixed alias taxonomy and deterministic rules, not a contextual
+language model.
+• Evidence extraction can miss synonyms, nuanced negation, document layout, and requirements
+expressed outside recognized patterns.
+• Score and proficiency labels are heuristics, not calibrated measures, verified skills, hiring outcomes,
+or fairness guarantees.
+ResumeIntel supporting documents • 10
+• Research transforms do not establish broad semantic robustness.
+• Future-skill prediction is experimental, not integrated into operational analysis, and not validated for
+forecast accuracy.
+• No trained adapter is available; AI-assisted labels remain pseudo-labels and must not be treated as
+ground truth.
+12. Conclusion
+The strongest supported contribution is an implemented workflow that combines requirement-level
+evidence, explicit uncertainty, transparent weighted coverage, and bounded what-if scoring within
+authenticated, persisted software. The package presents source evidence and limitations so reviewers
+can evaluate the actual software expression without relying on aspirational claims.
+ResumeIntel supporting documents • 11
+ORIGINALITY AND CONTRIBUTION REPORT
+Evidence-based technical positioning and copyright preparation notes
+1. Copyright positioning
+This report identifies software expression and implementation integration visible in the repository. It is
+not a legal opinion, ownership determination, novelty opinion, or guarantee of registration. Copyright
+scope and applicant/authorship details should be confirmed with the University and qualified counsel.
+The Indian Copyright Office states that computer software/programmes can be registered as software
+and calls for source and object code. Current online instructions describe a PDF of at least the first 10
+and last 10 source pages, or all source if under 20 pages, with no blocked or redacted portions.
+Confirm current filing requirements before submission.
+2. Ranked original implementation contributions
+Rank /
+contribution
+Technical problem and approach Evidence and status
+1. Evidence-
+linked
+requirement
+classification
+Avoids collapsing contextual use,
+shallow list mentions, absent terms, and
+unsupported requirements. Uses
+complete-term aliases, section context,
+four evidence states, source excerpt,
+explanation, and score contribution.
+lib/analysis.ts: extractRequirements,
+classifyEvidence, analyzeResume.
+Implemented deterministic rules;
+narrow taxonomy.
+2. Transparent
+weighted
+evidence
+coverage
+Makes score arithmetic inspectable
+through required/preferred weights, state
+credits, and per-item contributions.
+lib/analysis.ts: SCORE_WEIGHTS,
+calculateScoreBreakdown.
+Implemented; not predictive or
+employer ATS score.
+3. Bounded
+what-if
+assessment
+Shows mathematical impact of changing
+a single requirement state to matched.
+lib/analysis.ts:
+getCounterfactualScore,
+getRecommendations. Implemented
+as hypothetical only.
+4. Evidence-
+bounded
+proficiency
+heuristic
+Uses sections and distinct contextual
+examples, returning explanation and
+uncertainty.
+lib/analysis.ts:
+estimateSkillProficiencies.
+Implemented, uncalibrated, not skill
+verification.
+ResumeIntel supporting documents • 12
+5. Authenticated
+report and
+research
+persistence
+Connects analysis to owner-scoped
+resume, transactionally stores JSON,
+and keeps reproducible research history.
+app/api/analyses/route.ts,
+app/api/resumes/route.ts,
+supabase/schema.sql. Implemented;
+security review is not exhaustive.
+6. Separate job-
+market
+intelligence
+extension
+Collects/normalizes postings and
+experiments with human-reviewed and
+AI-assisted labels, model training, and
+forecasting.
+ml/skill-intelligence and forecasting
+modules. Experimental, not
+integrated, validation gate blocked, no
+trained adapter or validated forecast.
+3. Limits of originality claims
+The general idea of resume-to-job matching, weighted arithmetic, text normalization, model fine-tuning,
+and forecasting is not claimed as exclusive. Third-party libraries, pretrained Qwen model weights,
+taxonomies, source-platform data, and external datasets are not claimed as owned by ResumeIntel.
+The repository currently has no selected software license; dependency notices and dataset rights
+require separate review.
+The claimed contribution is the authored source-code expression and its particular integration, user
+interface, data schemas, rule configuration, and workflows as evidenced in this repository. Do not
+assert “first”, “unique in the market”, or validated superiority without comparative research.
+4. Authorship and ownership facts to complete
+• Identify all authors/contributors and their contribution periods from version-control and institutional
+records.
+• Confirm whether applicant is the student, institution, or another rights holder; obtain mentor/institution
+guidance and any required consent/NOC.
+• Review third-party dependency licenses and model/data terms before distribution or filing.
+• Prepare the source-code PDF and object-code deliverable according to current portal instructions; do
+not redact portions where the portal prohibits redaction.
+• Share portal credentials only through a separate institution-approved secure method; never add them
+to this package.
+5. Official references
+Government of India Copyright Office FAQ: https://copyright.gov.in/frmFAQ.aspx
+Copyright Rules, 2013, Chapter XIII, Rule 70(5):
+https://copyright.gov.in/Copyright_Rules_2013/chapter_xiii.html
+Copyright Office online filing instructions: https://copyright.gov.in/UserRegistration/BOLoginPage.aspx
+Web pages checked 13 November 2026. Requirements can change; verify at filing time.
+ResumeIntel supporting documents • 13
+System Architecture and Workflow Report
+ResumeIntel | Computer Software | Prepared 2026-11-14
+This report depicts behavior found in the inspected repository, not a proposed or planned design.
+Overall architecture
+The browser UI uses Supabase SSR authentication and Next.js API routes. The server calls a
+deterministic TypeScript analyzer and persists owner-scoped results and private resume objects.
+Research endpoints use the same authenticated application. Forecasting endpoints return unavailable
+when readiness data is insufficient.
+Implemented system architecture
+Browser UI
+Next.js / React
+Auth
+Supabase SSR session
+API routes
+Next.js server routes
+Analysis engine
+Deterministic TypeScript
+PostgreSQL
+RLS scoped records
+Private storage
+Owner-prefixed resumes
+Research workspace
+Baseline / experiments
+Forecast modules
+Experimental / unavailable
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+ResumeIntel supporting documents • 14
+Resume upload and processing
+The upload API validates PDF/DOCX MIME type, size and file signature, extracts text with PDF.js or
+Mammoth, rejects insufficient readable text, then stores the resume in private Supabase Storage and
+records metadata.
+Resume upload and extraction workflow
+User session
+Verified user identity
+Upload API
+PDF or DOCX; <=10 MB
+Validation
+MIME + file signature
+Extraction
+PDF.js / Mammoth
+Text check
+Normalize; minimum readable length
+Private storage
+Owner path + database row
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+ResumeIntel supporting documents • 15
+Job-description requirement matching
+Job text is normalized and scanned against a small explicit alias taxonomy. Unsupported bullet
+requirements are retained as unmapped/uncertain. Resume text is searched with complete-term
+boundaries and section context.
+Requirement extraction and evidence workflow
+Job description
+Normalize and split lines
+Taxonomy
+12 canonical IDs + aliases
+Requirement parser
+Recognized terms / unmapped
+bullets
+Resume text
+Section-aware lines
+Evidence matcher
+Complete-term alias search
+Requirement result
+matched / partial / missing /
+uncertain
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+ResumeIntel supporting documents • 16
+Skill-gap analysis and explanation
+Requirements receive matched, partial, missing or uncertain states. Required and preferred weights
+and fixed state credits produce an evidence-coverage score and per-requirement explanations. The
+what-if score is a bounded arithmetic counterfactual.
+Assessment, scoring, and bounded counterfactual
+Requirement states
+per requirement
+Weights
+required 5 / preferred 3
+State credits
+1 / .55 / .35 / 0
+Coverage score
+weighted evidence index
+What-if
+temporarily treat one state
+matched
+Explanation
+evidence + arithmetic
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+ResumeIntel supporting documents • 17
+Authentication and database flow
+Server-side Supabase session identity determines ownership. PostgreSQL records use owner
+constraints and Row Level Security. Resume objects use a private bucket and owner-prefixed paths;
+the PostgreSQL client enforces certificate verification.
+Authenticated persistence and access boundary
+Supabase Auth
+server-verified user
+API route
+owner derived from session
+PostgreSQL
+owner
+id + transactions
+_
+RLS
+auth.uid() ownership policies
+Private Storage
+folder prefix = user ID
+Analysis JSON
+saved requirement report
+ResumeIntel source-derived diagram • arrow direction shows data or control flow
+ResumeIntel supporting documents • 18
+Repository and Development Evidence
+Report
+ResumeIntel | Computer Software | Prepared 2026-11-14
+Repository: https://github.com/AkshitSalwan/resumeIntel
+Inspected revision: 94e7340f6af0a6cb78463b211970f5380d1ca67a. Git history is included only as
+repository-state evidence; commit timestamps do not establish creation date or first publication.
+Project structure and implementation evidence
+app/ — Next.js App Router pages, authenticated API routes, forecast availability routes
+components/ — Authentication, research workspace and forecast-unavailable UI
+lib/ — Deterministic analysis, resume extraction, auth, database, research and forecast
+readiness
+supabase/ — PostgreSQL schema, RLS policies and reviewed migrations/remediation SQL
+tests/ — Vitest analysis, auth, date, forecast, research and security suites
+forecasting/ — Isolated historical job-posting data pipeline, descriptive analytics and
+experimental time-series evaluation
+ml/skill-intelligence/future_skills/ — Separate experimental annotation, export, training
+and inference pipeline; not integrated into the primary resume analyzer
+Verified technology
+Next.js 16.4.4 App Router, React 19, TypeScript 5.7.3, Supabase SSR/Auth/Storage, PostgreSQL via
+pg, PDF.js, Mammoth, Vitest and Python modules for separate forecasting/data work. Version
+references come from package manifests and source configuration.
+Test execution for this package preparation
+pnpm test: 49 passed across 6 files.
+.venv/bin/python -m pytest forecasting/tests ml/skill-
+intelligence/future_skills/tests: 53 passed.
+These are test results from this preparation session, not guarantees of correctness. Lint, build and
+external security review were not rerun for this package.
+Git history excerpt
+94e7340 Add ResumeIntel research and copyright submission work
+c06ca29 Document ResumeIntel research workflow
+ad1e769 Prepare ResumeIntel for deployment
+ResumeIntel supporting documents • 19
+0fde95d Add Supabase authentication UI
+9643c90 first commit
+Implementation boundary and limitations
+The primary application performs deterministic, taxonomy-alias-based matching and weighted
+evidence coverage; it is not an LLM-based evaluator.
+Proficiency labels and confidence terms are heuristic evidence descriptions, not calibrated
+probabilities or verified ability.
+Forecasting and QLoRA/future-skills code are separate experimental work. Forecasting is
+gated/unavailable in the UI; no trained adapter or validated forecast is represented as available.
+The repository has no selected software license. Third-party dependencies, pretrained model
+terms, and data rights need separate review.
+Evidence limits
+Repository files and test output support the technical statements above. This report does not determine
+authorship, ownership, originality as a legal conclusion, first-publication date, or registration eligibility.
+Confirm applicant and contributor facts using institutional records.
+ResumeIntel supporting documents • 20

@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 15.0px 0.0px 11.0px 0.0px; text-align: center; font: 17.0px 'Times New Roman'}
+    p.p2 {margin: 0.0px 0.0px 15.0px 0.0px; text-align: center; font: 11.0px 'Times New Roman'}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px 'Times New Roman'}
+    p.p4 {margin: 0.0px 0.0px 7.0px 0.0px; font: 12.0px 'Times New Roman'}
+    p.p5 {margin: 18.0px 0.0px 8.0px 0.0px; font: 13.0px 'Times New Roman'}
+    p.p6 {margin: 0.0px 0.0px 3.0px 0.0px; font: 10.0px 'Times New Roman'}
+    p.p7 {margin: 0.0px 0.0px 6.0px 36.0px; text-indent: -18.0px; font: 12.0px 'Times New Roman'}
+    p.p8 {margin: 0.0px 0.0px 5.0px 0.0px; font: 9.5px 'Times New Roman'}
+    span.s1 {font: 12.0px 'Times New Roman'}
+    span.Apple-tab-span {white-space:pre}
+    table.t1 {border-collapse: collapse}
+    td.td1 {border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #bfbfbf #bfbfbf #bfbfbf #bfbfbf; padding: 0.0px 5.0px 0.0px 5.0px}
+  </style>
+</head>
+<body>
+<p class="p1"><b>ORIGINALITY AND CONTRIBUTION REPORT</b></p>
+<p class="p2">Evidence-based technical positioning and copyright preparation notes</p>
+<p class="p3"><span class="s1"></span><b>1. Copyright positioning</b></p>
+<p class="p4">This report identifies software expression and implementation integration visible in the repository. It is not a legal opinion, ownership determination, novelty opinion, or guarantee of registration. Copyright scope and applicant/authorship details should be confirmed with the University and qualified counsel.</p>
+<p class="p4">The Indian Copyright Office states that computer software/programmes can be registered as software and calls for source and object code. Current online instructions describe a PDF of at least the first 10 and last 10 source pages, or all source if under 20 pages, with no blocked or redacted portions. Confirm current filing requirements before submission.</p>
+<p class="p5"><b>2. Ranked original implementation contributions</b></p>
+<table cellspacing="0" cellpadding="0" class="t1">
+  <tbody>
+    <tr>
+      <td valign="middle" class="td1">
+        <p class="p6"><b>Rank / contribution</b></p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6"><b>Technical problem and approach</b></p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6"><b>Evidence and status</b></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="middle" class="td1">
+        <p class="p6">1. Evidence-linked requirement classification</p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6">Avoids collapsing contextual use, shallow list mentions, absent terms, and unsupported requirements. Uses complete-term aliases, section context, four evidence states, source excerpt, explanation, and score contribution.</p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6">lib/analysis.ts: extractRequirements, classifyEvidence, analyzeResume. Implemented deterministic rules; narrow taxonomy.</p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="middle" class="td1">
+        <p class="p6">2. Transparent weighted evidence coverage</p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6">Makes score arithmetic inspectable through required/preferred weights, state credits, and per-item contributions.</p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6">lib/analysis.ts: SCORE_WEIGHTS, calculateScoreBreakdown. Implemented; not predictive or employer ATS score.</p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="middle" class="td1">
+        <p class="p6">3. Bounded what-if assessment</p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6">Shows mathematical impact of changing a single requirement state to matched.</p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6">lib/analysis.ts: getCounterfactualScore, getRecommendations. Implemented as hypothetical only.</p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="middle" class="td1">
+        <p class="p6">4. Evidence-bounded proficiency heuristic</p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6">Uses sections and distinct contextual examples, returning explanation and uncertainty.</p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6">lib/analysis.ts: estimateSkillProficiencies. Implemented, uncalibrated, not skill verification.</p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="middle" class="td1">
+        <p class="p6">5. Authenticated report and research persistence</p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6">Connects analysis to owner-scoped resume, transactionally stores JSON, and keeps reproducible research history.</p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6">app/api/analyses/route.ts, app/api/resumes/route.ts, supabase/schema.sql. Implemented; security review is not exhaustive.</p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="middle" class="td1">
+        <p class="p6">6. Separate job-market intelligence extension</p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6">Collects/normalizes postings and experiments with human-reviewed and AI-assisted labels, model training, and forecasting.</p>
+      </td>
+      <td valign="middle" class="td1">
+        <p class="p6">ml/skill-intelligence and forecasting modules. Experimental, not integrated, validation gate blocked, no trained adapter or validated forecast.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="p5"><b>3. Limits of originality claims</b></p>
+<p class="p4">The general idea of resume-to-job matching, weighted arithmetic, text normalization, model fine-tuning, and forecasting is not claimed as exclusive. Third-party libraries, pretrained Qwen model weights, taxonomies, source-platform data, and external datasets are not claimed as owned by ResumeIntel. The repository currently has no selected software license; dependency notices and dataset rights require separate review.</p>
+<p class="p4">The claimed contribution is the authored source-code expression and its particular integration, user interface, data schemas, rule configuration, and workflows as evidenced in this repository. Do not assert “first”, “unique in the market”, or validated superiority without comparative research.</p>
+<p class="p5"><b>4. Authorship and ownership facts to complete</b></p>
+<p class="p7">•<span class="Apple-tab-span">	</span>Identify all authors/contributors and their contribution periods from version-control and institutional records.</p>
+<p class="p7">•<span class="Apple-tab-span">	</span>Confirm whether applicant is the student, institution, or another rights holder; obtain mentor/institution guidance and any required consent/NOC.</p>
+<p class="p7">•<span class="Apple-tab-span">	</span>Review third-party dependency licenses and model/data terms before distribution or filing.</p>
+<p class="p7">•<span class="Apple-tab-span">	</span>Prepare the source-code PDF and object-code deliverable according to current portal instructions; do not redact portions where the portal prohibits redaction.</p>
+<p class="p7">•<span class="Apple-tab-span">	</span>Share portal credentials only through a separate institution-approved secure method; never add them to this package.</p>
+<p class="p5"><b>5. Official references</b></p>
+<p class="p4">Government of India Copyright Office FAQ: https://copyright.gov.in/frmFAQ.aspx</p>
+<p class="p4">Copyright Rules, 2013, Chapter XIII, Rule 70(5): https://copyright.gov.in/Copyright_Rules_2013/chapter_xiii.html</p>
+<p class="p4">Copyright Office online filing instructions: https://copyright.gov.in/UserRegistration/BOLoginPage.aspx</p>
+<p class="p8">Web pages checked 13 November 2026. Requirements can change; verify at filing time.</p>
+</body>
+</html>
